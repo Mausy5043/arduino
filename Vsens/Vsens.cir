@@ -1,18 +1,20 @@
 SPICE3 Voltage meter
+* echo "https://blog.udemy.com/arduino-voltmeter"
 
 * Node 0 = GND
-r1 1 2 1M
-r2 2 0 100k
+r1 1 2 100k
+r2 2 0 10k
 vdc 1 0 DC 12
 
 .control
-  * dispose of any 'save' statements from previous runs
-  delete all
-  dc vdc 0.5 24.0 0.5
-  * draw a graph of the voltage vs time.
-  plot  v(1),v(2)
-  * print the voltage vs time
-  print v(1),v(2)
+op
+show all
+print all
+
+dc vdc 2 24.5 0.5
+plot  v(2)
+plot  i(vdc) * -1
+
 .endc
 
 .end
