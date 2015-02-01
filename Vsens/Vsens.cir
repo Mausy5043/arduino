@@ -1,5 +1,5 @@
 SPICE3 Voltage meter
-* echo "https://blog.udemy.com/arduino-voltmeter"
+* https://blog.udemy.com/arduino-voltmeter
 
 * Node 0 = GND
 r1 1 2 100k
