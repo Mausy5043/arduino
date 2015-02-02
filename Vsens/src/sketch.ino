@@ -35,7 +35,7 @@ unsigned long elapsedTime;
 void setup()
 {
   pinMode(activityLED, OUTPUT);    // An LED to signal activity
-  Serial.begin(9600);     // Initialise serial port
+  Serial.begin(9600);             // Initialise serial port
 }
 
 void loop()
@@ -44,21 +44,21 @@ void loop()
   digitalWrite(activityLED, HIGH)
   sumSamples = 0;
 
-  // Add up the pre-defined number of samples for Sample Averaging
+  // *** Add up the pre-defined number of samples for Sample Averaging
   for (cntSamples = 0; cntSamples <= numSamples; cntSamples++) {
     sumSamples += analogRead(measurePin);
     delay(10);
   }
 
-  // Determine the source voltage:
+  // *** Determine the source voltage:
   voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
-  voltage = voltage * scaleRaw2Volts;    // Scale avg raw value to source voltage.
+  voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
 
   Serial.print(voltage);
   Serial.println (" V");
   digitalWrite(activityLED, LOW);
   elapsedTime = millis() - startTime;
 
-  // Wait until 5sec have passed.
+  // *** Wait until 5sec have passed.
   delay(abs(5000 - elapsedTime));
 }
