@@ -29,8 +29,8 @@ const float scaleRaw2Volts = ref5V / (ratioRes * 1023.0);
 int sumSamples = 0;         // sum of samples
 int cntSamples = 0;         // sample counter
 float voltage = 0.0;
-long startTime;
-long elapsedTime;
+unsigned long startTime;
+unsigned long elapsedTime;
 
 void setup()
 {
