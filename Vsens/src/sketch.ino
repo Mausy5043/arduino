@@ -6,6 +6,7 @@
 
 // +V from battery is connected to analog pin 0
 #define measurePin A0
+#define activityLED 13
 
 // *** declare constants
 const float ref5V = 5.0;    // reference: 5.0V on measurePin == 1023.0
@@ -28,15 +29,19 @@ const float scaleRaw2Volts = ref5V / (ratioRes * 1023.0);
 int sumSamples = 0;         // sum of samples
 int cntSamples = 0;         // sample counter
 float voltage = 0.0;
+long startTime;
+long elapsedTime;
 
 void setup()
 {
-    Serial.begin(9600);     // Initialise serial port
+  pinMode(activityLED, OUTPUT);    // An LED to signal activity
+  Serial.begin(9600);     // Initialise serial port
 }
 
 void loop()
 {
-  cntSamples = 0;
+  startTime = millis();
+  digitalWrite(activityLED, HIGH)
   sumSamples = 0;
 
   // Add up the pre-defined number of samples for Sample Averaging
@@ -51,4 +56,9 @@ void loop()
 
   Serial.print(voltage);
   Serial.println (" V");
+  digitalWrite(activityLED, LOW);
+  elapsedTime = millis() - startTime;
+
+  // Wait until 5sec have passed.
+  delay(abs(5000 - elapsedTime));
 }
