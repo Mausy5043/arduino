@@ -4,4 +4,4 @@
 git fetch origin && git reset --hard origin/dev && git clean -f -d
 
 # Set permissions
-chmod -R 744 *
+sudo chmod -R 744 *
