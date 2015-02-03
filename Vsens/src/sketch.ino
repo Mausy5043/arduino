@@ -54,8 +54,8 @@ void loop()
   voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
   voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
 
-  Serial.println (voltage);
-  //Serial.println (" V");
+  Serial.print(voltage);
+  Serial.println(" V");
   digitalWrite(activityLED, LOW);
   elapsedTime = millis() - startTime;
 
