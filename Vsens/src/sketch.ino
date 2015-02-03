@@ -9,7 +9,7 @@
 #define activityLED 13
 
 // *** declare constants
-const float ref5V = 5.0;    // reference: 5.0V on measurePin == 1023.0
+const float ref5V = 5.14;   // reference: 5.0V on measurePin == 1023.0
 const float R1 = 100000.0;  // Resistor value used for R1
 const float R2 = 10000.0;   // Resistor value used for R2
 
