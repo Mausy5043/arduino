@@ -41,7 +41,7 @@ void setup()
 void loop()
 {
   startTime = millis();
-  digitalWrite(activityLED, HIGH)
+  digitalWrite(activityLED, HIGH);
   sumSamples = 0;
 
   // *** Add up the pre-defined number of samples for Sample Averaging
