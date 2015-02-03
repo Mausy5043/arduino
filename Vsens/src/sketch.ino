@@ -34,7 +34,7 @@ unsigned long elapsedTime;
 
 void setup()
 {
-  pinMode(activityLED, OUTPUT);    // An LED to signal activity
+  pinMode(activityLED, OUTPUT);   // An LED to signal activity
   Serial.begin(9600);             // Initialise serial port
 }
 
