@@ -1,0 +1,20 @@
+SPICE3 Voltage meter
+* https://blog.udemy.com/arduino-voltmeter
+
+* Node 0 = GND
+r1 1 2 100k
+r2 2 0 10k
+vdc 1 0 DC 12
+
+.control
+op
+show all
+print all
+
+dc vdc 2 24.5 0.5
+plot  v(2)
+plot  i(vdc) * -1
+
+.endc
+
+.end
