@@ -31,6 +31,8 @@ int cntSamples = 0;         // sample counter
 float voltage = 0.0;
 unsigned long startTime;
 unsigned long elapsedTime;
+byte byteIn = 0;
+byte iB = 0;
 
 void setup()
 {
@@ -38,14 +40,51 @@ void setup()
   Serial.begin(9600);             // Initialise serial port
 }
 
+int serialRX()
+{
+  // read a a byte from the serialbuffer
+  iB = Serial.read();
+}
+
+void serialTX(byte oB)
+{
+  if (oB == 13)
+  {
+    Serial.write(11);
+  }
+  Serial.write(oB);
+}
+
+float sensV()
+{
+  sumSamples = 0;
+
+  // *** Add up the pre-defined number of samples for Sample Averaging
+  for (cntSamples = 0; cntSamples <= numSamples; cntSamples++)
+  {
+    sumSamples += analogRead(measurePin);
+    delay(10);
+  }
+
+  // *** Determine the source voltage:
+  voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
+  voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
+
+}
+
 void loop()
 {
-  // send data only when you receive data:
-  if (Serial.available() > 0) {
-    // read the incoming byte:
-    incomingByte = Serial.read()
-    // say what you got:
-    Serial.print("I received: ");
-    Serial.println(incomingByte, DEC);
+  if (Serial.available() > 0)
+  {
+    digitalWrite(activityLED, HIGH); // signal activity detected
+
+    byteIn = serialRX(); // see what the input is
+    serialTX(byteIn); // echo input
+    voltage = sensV();
+
+    Serial.print(voltage);
+    Serial.println(" V");
+
+    digitalWrite(activityLED, LOW); // end of activity
   }
 }
