@@ -84,10 +84,10 @@ void loop()
 
     byteIn = serialRX(); // see what the input is
     voltage = sensV();
-    Serial.println("/"); // Signal start of telegram
+    Serial.print("V "); // Signal start of telegram
+    Serial.print(" "); // space to
     Serial.print(voltage);
-    Serial.println(" V");
-    Serial.println("!"); // Signal end of telegram
+    Serial.println(" !"); // Signal end of telegram
 
     digitalWrite(activityLED, LOW); // end of activity
   }
