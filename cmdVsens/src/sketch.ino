@@ -36,7 +36,6 @@ float voltage = 0.0;
 unsigned long startTime;
 unsigned long elapsedTime;
 byte cmd = 0;
-byte iB = 0;
 
 void setup()
 {
