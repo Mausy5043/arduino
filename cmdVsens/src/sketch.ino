@@ -30,12 +30,10 @@ const float ratioRes = (R2/(R1 + R2));
 const float scaleRaw2Volts = ref5V / (ratioRes * 1023.0);
 
 // *** declare variables
-int sumSamples = 0;         // sum of samples
-int cntSamples = 0;         // sample counter
-float voltage = 0.0;
 unsigned long startTime;
 unsigned long elapsedTime;
-byte cmd = 0;
+float retValue = 0.0;
+byte cmd;
 
 void setup()
 {
@@ -45,9 +43,8 @@ void setup()
 
 int serialRX()
 {
-  byte iB;
   // read a a byte from the serialbuffer
-  iB = Serial.read();
+  return Serial.read();
 }
 
 void serialTX(byte oB) // for testing purposes only
@@ -61,7 +58,9 @@ void serialTX(byte oB) // for testing purposes only
 
 float sensV() // measure the voltage
 {
-  sumSamples = 0;
+  float voltage = 0.0;        // result
+  int sumSamples = 0;         // sum of samplevalues
+  int cntSamples = 0;         // sample counter
 
   // *** Add up the pre-defined number of samples for Sample Averaging
   for (cntSamples = 0; cntSamples <= numSamples; cntSamples++)
@@ -73,6 +72,7 @@ float sensV() // measure the voltage
   // *** Determine the source voltage:
   voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
   voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
+  return voltage;
 
 }
 
@@ -84,13 +84,14 @@ void loop()
 
     cmd = serialRX();                 // See what the input is
 
-    Serial.print(cmd);                // Signal start of telegram
+    Serial.print((char)cmd);          // Signal start of telegram
     Serial.print(" ");                // Delimiter
     switch (cmd)
     {
       case 'V':
-        voltage = sensV();
-        Serial.print(voltage);        // Voltage
+      case 'v':
+        retValue = sensV();
+        Serial.print(retValue);        // Voltage
         break;
       default:
         Serial.print("NaN");          // Invalid cmd returns `NaN`
