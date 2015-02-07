@@ -35,7 +35,7 @@ int cntSamples = 0;         // sample counter
 float voltage = 0.0;
 unsigned long startTime;
 unsigned long elapsedTime;
-byte byteIn = 0;
+byte cmd = 0;
 byte iB = 0;
 
 void setup()
@@ -46,12 +46,14 @@ void setup()
 
 int serialRX()
 {
+  byte iB;
   // read a a byte from the serialbuffer
   iB = Serial.read();
 }
 
-void serialTX(byte oB)
+void serialTX(byte oB) // for testing purposes only
 {
+  byte oB;
   if (oB == 13)
   {
     Serial.write(11);
@@ -59,7 +61,7 @@ void serialTX(byte oB)
   Serial.write(oB);
 }
 
-float sensV()
+float sensV() // measure the voltage
 {
   sumSamples = 0;
 
@@ -80,15 +82,23 @@ void loop()
 {
   if (Serial.available() > 0)
   {
-    digitalWrite(activityLED, HIGH); // signal activity detected
+    digitalWrite(activityLED, HIGH);  // signal activity detected
 
-    byteIn = serialRX(); // see what the input is
-    voltage = sensV();
-    Serial.print("V "); // Signal start of telegram
-    Serial.print(" "); // space to
-    Serial.print(voltage);
-    Serial.println(" !"); // Signal end of telegram
+    cmd = serialRX();                 // See what the input is
 
-    digitalWrite(activityLED, LOW); // end of activity
+    Serial.print(cmd);                // Signal start of telegram
+    Serial.print(" ");                // Delimiter
+    switch (cmd)
+    {
+      case 'V':
+        voltage = sensV();
+        Serial.print(voltage);        // Voltage
+        break;
+      default:
+        Serial.print("NaN");          // Invalid cmd returns `NaN`
+    }
+    Serial.println(" !");             // Signal end of telegram
+
+    digitalWrite(activityLED, LOW);   // end of activity
   }
 }
