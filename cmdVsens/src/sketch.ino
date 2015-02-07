@@ -1,7 +1,11 @@
 /*
-  Vsens sketch
-  measures the voltage on analog pin and prints the result to the serial port
+  cmdVsens sketch
+  Waits for a request on the serialport.
+  Then measures the voltage on measurePin and prints the result to the serialport
+
+  *******
   Do not connect more than 5 volts directly to an Arduino pin!!
+  *******
 */
 
 // +V from battery is connected to analog pin 0
@@ -79,11 +83,11 @@ void loop()
     digitalWrite(activityLED, HIGH); // signal activity detected
 
     byteIn = serialRX(); // see what the input is
-    serialTX(byteIn); // echo input
     voltage = sensV();
-
+    Serial.println("/"); // Signal start of telegram
     Serial.print(voltage);
     Serial.println(" V");
+    Serial.println("!"); // Signal end of telegram
 
     digitalWrite(activityLED, LOW); // end of activity
   }
