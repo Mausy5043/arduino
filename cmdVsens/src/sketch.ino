@@ -52,7 +52,6 @@ int serialRX()
 
 void serialTX(byte oB) // for testing purposes only
 {
-  byte oB;
   if (oB == 13)
   {
     Serial.write(11);
