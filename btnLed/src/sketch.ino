@@ -15,7 +15,7 @@ volatile int flag = LOW;
 
 void setup()
 {
-  pinMode(onoffLED, OUTPUT);       // An LED to signal on or off state
+  pinMode(onoffPIN, OUTPUT);       // An LED to signal on or off state
   attachInterrupt(0, ISRbutton, RISING); // Interrupt when button is pressed
   //pinMode(pushbuttonPIN, INPUT);  // A button to switch the LED
 }
