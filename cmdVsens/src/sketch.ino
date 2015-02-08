@@ -1,5 +1,5 @@
 /*
-  ActionRequestVsens sketch
+  cmdVsens sketch
   Waits for a request on the serialport.
   Then measures the AverageValue on VoltMeasurePIN and prints the result to the serialport
 
