@@ -9,29 +9,43 @@
 */
 
 #define pushbuttonPIN 2
-#define onoffLED 3
+#define onoffPIN 3
 
-boolean flag = LOW;
+volatile int flag = LOW;
 
 void setup()
 {
   pinMode(onoffLED, OUTPUT);       // An LED to signal on or off state
-  pinMode(pushbuttonPIN, INPUT);  // A button to switch the LED
+  attachInterrupt(0, ISRbutton, RISING); // Interrupt when button is pressed
+  //pinMode(pushbuttonPIN, INPUT);  // A button to switch the LED
 }
 
 void loop()
 {
+  digitalWrite(onoffPIN, flag);
   // wait for a button press
+/*
   if ((digitalRead(pushbuttonPIN) == HIGH) && (flag == LOW))
   {
+    flag = HIGH;
     digitalWrite(onoffLED, HIGH);
-    delay(20);
+    delay(500);
     //digitalWrite(onoffLED,LOW);
   }
   if ((digitalRead(pushbuttonPIN) == HIGH) && (flag == HIGH))
   {
+    flag = LOW;
     digitalWrite(onoffLED, LOW);
-    delay(20);
+    delay(500);
     //digitalWrite(onoffLED,LOW);
   }
+*/
+}
+
+
+// toggles LED when interrupt pin changes state
+
+void ISRbutton()
+{
+  flag = !flag;
 }
