@@ -22,16 +22,10 @@ void setup()
 void loop()
 {
   // wait for a button press
-  if (digitalRead(pushbuttonPIN) == HIGH);
+  if (digitalRead(pushbuttonPIN) == HIGH)
   {
     digitalWrite(onoffLED, HIGH);
     delay(2000);
     digitalWrite(onoffLED,LOW);
-  }
-  if (digitalRead(pushbuttonPIN) == LOW);
-  {
-    digitalWrite(onoffLED, LOW);
-    delay(2000);
-    digitalWrite(onoffLED,HIGH);
   }
 }
