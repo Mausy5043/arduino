@@ -28,4 +28,10 @@ void loop()
     delay(2000);
     digitalWrite(onoffLED,LOW);
   }
+  if (digitalRead(pushbuttonPIN) == LOW);
+  {
+    digitalWrite(onoffLED, LOW);
+    delay(2000);
+    digitalWrite(onoffLED,HIGH);
+  }
 }
