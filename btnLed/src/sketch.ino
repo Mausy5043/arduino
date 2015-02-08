@@ -11,7 +11,7 @@
 #define pushbuttonPIN 2
 #define onoffLED 3
 
-boolean flag = TRUE;
+boolean flag = LOW;
 
 void setup()
 {
@@ -22,7 +22,7 @@ void setup()
 void loop()
 {
   // wait for a button press
-  if (digitalRead(pusbuttonPIN) == HIGH);
+  if (digitalRead(pushbuttonPIN) == HIGH);
   {
     digitalWrite(onoffLED, HIGH);
     delay(2000);
