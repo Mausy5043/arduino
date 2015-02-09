@@ -12,40 +12,26 @@
 #define onoffPIN 3
 
 volatile int flag = LOW;
+unsigned long timestamp = 0;
 
 void setup()
 {
   pinMode(onoffPIN, OUTPUT);       // An LED to signal on or off state
-  attachInterrupt(0, ISRbutton, RISING); // Interrupt when button is pressed
-  //pinMode(pushbuttonPIN, INPUT);  // A button to switch the LED
+  attachInterrupt(0, interrupt, HIGH); // Interrupt when button is pressed
+}
+
+void interrupt()
+{
+  // Only change the flag if more than 1000 ms has passed since previous IRQ
+  // to avoid debouncing.
+  if ( (timestamp + 1000) < millis() )
+  {
+    flag = !flag;
+  }
+  timestamp = millis();
 }
 
 void loop()
 {
   digitalWrite(onoffPIN, flag);
-  // wait for a button press
-/*
-  if ((digitalRead(pushbuttonPIN) == HIGH) && (flag == LOW))
-  {
-    flag = HIGH;
-    digitalWrite(onoffLED, HIGH);
-    delay(500);
-    //digitalWrite(onoffLED,LOW);
-  }
-  if ((digitalRead(pushbuttonPIN) == HIGH) && (flag == HIGH))
-  {
-    flag = LOW;
-    digitalWrite(onoffLED, LOW);
-    delay(500);
-    //digitalWrite(onoffLED,LOW);
-  }
-*/
-}
-
-
-// toggles LED when interrupt pin changes state
-
-void ISRbutton()
-{
-  flag = !flag;
 }
