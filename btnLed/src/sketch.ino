@@ -23,12 +23,12 @@ void setup()
 void interrupt()
 {
   // Only change the flag if more than 1000 ms has passed since previous IRQ
-  // to avoid debouncing.
-  if ( (timestamp + 1000) < millis() )
+  // to handle debouncing-effect.
+  if ( (unsigned long)(millis() - timestamp) > 1000 )
   {
     flag = !flag;
+    timestamp = millis();
   }
-  timestamp = millis();
 }
 
 void loop()
