@@ -49,7 +49,7 @@ void loop() {
   // Read temperature as Celsius
   float t = dht.readTemperature();
   // Read temperature as Fahrenheit
-  float f = dht.readTemperature(true);
+  // float f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
   //if (isnan(h) || isnan(t) || isnan(f)) {
@@ -66,10 +66,9 @@ void loop() {
   Serial.print(" %\t");
   Serial.print("Temperature: ");
   Serial.print(t);
-  Serial.print(" *C / ");
-  Serial.print(f);
-  Serial.print(" *F\t");
+  Serial.print(" *C");
+  Serial.print(" %\t");
   Serial.print("Dewpoint: ");
   Serial.print(dpc);
-  Serial.println(" *C / ");
+  Serial.println(" *C");
 }
