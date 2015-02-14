@@ -29,6 +29,7 @@ DHT dht(DHTPIN, DHTTYPE);
 //DHT dht(DHTPIN, DHTTYPE, 30);
 
 void setup() {
+  delay(2000);
   Serial.begin(9600);
   Serial.println("DHTxx test!");
 
@@ -54,10 +55,8 @@ void loop() {
     return;
   }
 
-  // Compute heat index
-  // Must send in temp in Fahrenheit!
-  float hic = dht.computeHeatIndexC(t, h);
-  float hif = dht.computeHeatIndexF(f, h);
+  // Compute dewpoint
+  float dpc = dht.computeDewPoint(t, h);
 
   Serial.print("Humidity: ");
   Serial.print(h);
@@ -67,9 +66,7 @@ void loop() {
   Serial.print(" *C / ");
   Serial.print(f);
   Serial.print(" *F\t");
-  Serial.print("Heat index: ");
-  Serial.print(hic);
-  Serial.print(" *C / ");
-  Serial.print(hif);
-  Serial.println(" *F");
+  Serial.print("Dewpoint: ");
+  Serial.print(dpc);
+  Serial.println(" *C / ");
 }

@@ -81,6 +81,7 @@ float DHT::readHumidity(void) {
 float DHT::computeHeatIndexF(float tempFahrenheit, float percentHumidity) {
   // Adapted from equation at: https://github.com/adafruit/DHT-sensor-library/issues/9 and
   // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
+  // NOAA: http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
   return -42.379 +
            2.04901523 * tempFahrenheit +
           10.14333127 * percentHumidity +
@@ -92,9 +93,7 @@ float DHT::computeHeatIndexF(float tempFahrenheit, float percentHumidity) {
           -0.00000199 * pow(tempFahrenheit, 2) * pow(percentHumidity, 2);
 }
 
-
 float DHT::computeHeatIndexC(float tempCelsius, float percentHumidity) {
-  // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
   return -8.784695 +
           1.61139411 * tempCelsius +
           2.33854900 * percentHumidity +
@@ -104,6 +103,14 @@ float DHT::computeHeatIndexC(float tempCelsius, float percentHumidity) {
           0.00221173 * pow(tempCelsius, 2) * percentHumidity +
           0.00072546 * tempCelsius * pow(percentHumidity, 2) +
          -0.00000358 * pow(tempCelsius, 2) * pow(percentHumidity, 2);
+}
+
+float DHT::computeDewPoint(float tempCelsius, float percentHumidity) {
+  // Source: http://nl.wikipedia.org/wiki/Dauwpunt
+  float alpha = 17.27;
+  float beta = 237.7; //degC
+  float gamma = (alpha * tempCelsius)/(beta + tempCelsius) + log(percentHumidity/100);
+  return (beta * gamma)/(alpha - gamma);
 }
 
 boolean DHT::read(void) {
