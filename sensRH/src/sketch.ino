@@ -71,5 +71,5 @@ void loop() {
   Serial.print(hic);
   Serial.print(" *C / ");
   Serial.print(hif);
-  Serial.println(" *F")
+  Serial.println(" *F");
 }
