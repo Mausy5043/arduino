@@ -63,11 +63,10 @@ void loop() {
 
   Serial.print("Humidity: ");
   Serial.print(h);
-  Serial.print(" %\t");
+  Serial.print(" % \t");
   Serial.print("Temperature: ");
   Serial.print(t);
-  Serial.print(" *C");
-  Serial.print(" %\t");
+  Serial.print(" *C \t");
   Serial.print("Dewpoint: ");
   Serial.print(dpc);
   Serial.println(" *C");
