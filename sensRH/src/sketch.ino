@@ -1,7 +1,7 @@
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
 
-#include "DHT.h"
+#include <DHT.h>
 
 #define DHTPIN 4     // what pin we're connected to
 
