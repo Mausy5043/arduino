@@ -93,7 +93,7 @@ float DHT::computeHeatIndex(float tempFahrenheit, float percentHumidity) {
 }
 */
 
-float DHT::computeHeatIndex(float tempCelcius, float percentHumidity) {
+float DHT::computeHeatIndex(float tempCelsius, float percentHumidity) {
   // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
   return -8.784695 +
           1.61139411 * tempCelsius +
