@@ -40,9 +40,9 @@ float DHT::readTemperature(bool S) {
       f += data[3];
       f /= 10;
       if (data[2] & 0x80)
-	f *= -1;
+	       f *= -1;
       if(S)
-	f = convertCtoF(f);
+	       f = convertCtoF(f);
 
       return f;
     }
