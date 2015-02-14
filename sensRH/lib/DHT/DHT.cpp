@@ -77,8 +77,8 @@ float DHT::readHumidity(void) {
   return NAN;
 }
 
-/*
-float DHT::computeHeatIndex(float tempFahrenheit, float percentHumidity) {
+
+float DHT::computeHeatIndexF(float tempFahrenheit, float percentHumidity) {
   // Adapted from equation at: https://github.com/adafruit/DHT-sensor-library/issues/9 and
   // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
   return -42.379 +
@@ -91,9 +91,9 @@ float DHT::computeHeatIndex(float tempFahrenheit, float percentHumidity) {
            0.00085282 * tempFahrenheit*pow(percentHumidity, 2) +
           -0.00000199 * pow(tempFahrenheit, 2) * pow(percentHumidity, 2);
 }
-*/
 
-float DHT::computeHeatIndex(float tempCelsius, float percentHumidity) {
+
+float DHT::computeHeatIndexC(float tempCelsius, float percentHumidity) {
   // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
   return -8.784695 +
           1.61139411 * tempCelsius +
