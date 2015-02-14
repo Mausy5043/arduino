@@ -62,20 +62,12 @@ void loop() {
   float dpc = dht.computeDewPoint(t, h);
 
   Serial.print("Humidity: ");
-  delay(10);
   Serial.print(h);
-  delay(10);
   Serial.print(" % \t");
-  delay(10);
   Serial.print("Temperature: ");
-  delay(10);
   Serial.print(t);
-  delay(10);
   Serial.print(" *C \t");
-  delay(10);
   Serial.print("Dewpoint: ");
-  delay(10);
   Serial.print(dpc);
-  delay(10);
   Serial.println(" *C");
 }
