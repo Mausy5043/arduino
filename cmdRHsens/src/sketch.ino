@@ -75,6 +75,17 @@ void loop() {
         ReturnedValue = computeDewPoint( dht.readTemperature(), dht.readHumidity() );
         Serial.print(ReturnedValue);        // AverageValue
         break;
+      case 'R':
+      case 'r':
+        float h = dht.readHumidity();
+        float t = dht.readTemperature();
+        Serial.print(h);
+        Serial.print(", ");
+        Serial.print(t);
+        Serial.print(", ");
+        ReturnedValue = computeDewPoint( t, h );
+        Serial.print(ReturnedValue);        // AverageValue
+        break;
       default:
         Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
     }
@@ -82,31 +93,4 @@ void loop() {
 
     digitalWrite(ActivityLED, LOW);   // end of activity
   }
-  // Reading temperature or humidity takes about 250 milliseconds!
-  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
-  // Read temperature as Celsius
-  float t = dht.readTemperature();
-  // Read temperature as Fahrenheit
-  // float f = dht.readTemperature(true);
-
-  // Check if any reads failed and exit early (to try again).
-  //if (isnan(h) || isnan(t) || isnan(f)) {
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Failed to read from DHT sensor!");
-    return;
-  }
-
-  // Compute dewpoint
-  float dpc = dht.computeDewPoint(t, h);
-
-  Serial.print("Humidity: ");
-  Serial.print(h);
-  Serial.print(" % \t");
-  Serial.print("Temperature: ");
-  Serial.print(t);
-  Serial.print(" *C \t");
-  Serial.print("Dewpoint: ");
-  Serial.print(dpc);
-  Serial.println(" *C");
 }

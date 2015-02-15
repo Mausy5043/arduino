@@ -40,8 +40,6 @@ void setup() {
 }
 
 void loop() {
-  // Wait a few seconds between measurements.
-  delay(10000);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -70,4 +68,7 @@ void loop() {
   Serial.print("Dewpoint: ");
   Serial.print(dpc);
   Serial.println(" *C");
+
+  // Wait a few seconds between measurements.
+  delay(10000);
 }
