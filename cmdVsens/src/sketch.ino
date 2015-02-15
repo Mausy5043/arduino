@@ -10,7 +10,7 @@
 
 // +V from battery is connected to analog pin 0
 #define VoltMeasurePIN A0
-#define ActivityLED 13
+#define activityLED 13
 
 // *** declare constants
 const float REF5V = 5.00;   // reference: 5.0V on VoltMeasurePIN == 1023.0
@@ -69,7 +69,7 @@ void loop()
 {
   if (Serial.available() > 0)
   {
-    digitalWrite(ActivityLED, HIGH);  // signal activity detected
+    digitalWrite(activityLED, HIGH);  // signal activity detected
 
     ActionRequest = serialRX();                 // See what the input is
 
@@ -87,6 +87,6 @@ void loop()
     }
     Serial.println(" !");             // Signal end of telegram
 
-    digitalWrite(ActivityLED, LOW);   // end of activity
+    digitalWrite(activityLED, LOW);   // end of activity
   }
 }

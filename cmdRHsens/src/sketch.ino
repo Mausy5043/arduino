@@ -37,6 +37,8 @@ const int NUM_SAMPLES = 5;  // number of measurements used for one result
 
 // *** declare variables
 float ReturnedValue = 0.0;
+float t = 0;
+float h = 0;
 byte ActionRequest;
 
 void setup() {
@@ -49,10 +51,16 @@ void setup() {
   digitalWrite(activityLED, LOW);
 }
 
+int serialRX()
+{
+  // read a a byte from the serialbuffer
+  return Serial.read();
+}
+
 void loop() {
   if (Serial.available() > 0)
   {
-    digitalWrite(ActivityLED, HIGH);  // signal activity detected
+    digitalWrite(activityLED, HIGH);  // signal activity detected
 
     ActionRequest = serialRX();                 // See what the input is
 
@@ -72,18 +80,18 @@ void loop() {
         break;
       case 'D':
       case 'd':
-        ReturnedValue = computeDewPoint( dht.readTemperature(), dht.readHumidity() );
+        ReturnedValue = dht.computeDewPoint( dht.readTemperature(), dht.readHumidity() );
         Serial.print(ReturnedValue);        // AverageValue
         break;
       case 'R':
       case 'r':
-        float h = dht.readHumidity();
-        float t = dht.readTemperature();
+        h = dht.readHumidity();
+        t = dht.readTemperature();
         Serial.print(h);
         Serial.print(", ");
         Serial.print(t);
         Serial.print(", ");
-        ReturnedValue = computeDewPoint( t, h );
+        ReturnedValue = dht.computeDewPoint( t, h );
         Serial.print(ReturnedValue);        // AverageValue
         break;
       default:
@@ -91,6 +99,6 @@ void loop() {
     }
     Serial.println(" !");             // Signal end of telegram
 
-    digitalWrite(ActivityLED, LOW);   // end of activity
+    digitalWrite(activityLED, LOW);   // end of activity
   }
 }
