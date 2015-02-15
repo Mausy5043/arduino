@@ -2,10 +2,22 @@
 
 MIT license
 written by Adafruit Industries
+
+Modifications by M. Hendrix (Mausy5043) FEB2015:
+- Added function computeDewPoint
+- Added slope and offset parameters for T and RH corrections if needed.
+  Use:
+  f *=slopeT;
+  f +=offsetT;
+
 */
 
 #include "DHT.h"
 
+const float DHTslopeT = 1.0;
+const float DHToffsetT = 0.0;
+const float DHTslopeH = 1.0;
+const float DHToffsetH = 0.0;
 
 DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
   _pin = pin;
@@ -71,6 +83,7 @@ float DHT::readHumidity(void) {
       f *= 256;
       f += data[1];
       f /= 10;
+
       return f;
     }
   }
