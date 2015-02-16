@@ -9,14 +9,14 @@
 */
 
 #define pushbuttonPIN 2
-#define onoffPIN 3
+#define onoffLED 3
 
 volatile int flag = LOW;
 unsigned long timestamp = 0;
 
 void setup()
 {
-  pinMode(onoffPIN, OUTPUT);       // An LED to signal on or off state
+  pinMode(onoffLED, OUTPUT);       // An LED to signal on or off state
   attachInterrupt(0, interrupt, HIGH); // Interrupt when button is pressed
 }
 
@@ -33,5 +33,5 @@ void interrupt()
 
 void loop()
 {
-  digitalWrite(onoffPIN, flag);
+  digitalWrite(onoffLED, flag);
 }
