@@ -93,6 +93,8 @@ void loop() {
         Serial.print(", ");
         ReturnedValue = dht.computeDewPoint( t, h );
         Serial.print(ReturnedValue);        // AverageValue
+        ReturnedValue = dht.computeDewPoint2( t, h );
+        Serial.print(ReturnedValue);        // AverageValue
         break;
       default:
         Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
