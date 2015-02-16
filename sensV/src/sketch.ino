@@ -36,7 +36,11 @@ unsigned long elapsedTime = 0;
 void setup()
 {
   pinMode(activityLED, OUTPUT);   // An LED to signal activity
+  digitalWrite(activityLED, HIGH);
   Serial.begin(9600);             // Initialise serial port
+  delay(2000);
+  Serial.println("sensV");
+  digitalWrite(activityLED, LOW);
 }
 
 void loop()

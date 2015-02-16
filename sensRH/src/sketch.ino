@@ -32,9 +32,12 @@ DHT dht(DHTPIN, DHTTYPE);
 //DHT dht(DHTPIN, DHTTYPE, 30);
 
 void setup() {
+  pinMode(activityLED, OUTPUT);   // An LED to signal activity
+  digitalWrite(activityLED, HIGH);
+  Serial.begin(9600);             // Initialise serial port
   delay(2000);
-  Serial.begin(9600);
-  Serial.println("DHTxx test!");
+  Serial.println("sensRH");
+  digitalWrite(activityLED, LOW);
 
   dht.begin();
 }
