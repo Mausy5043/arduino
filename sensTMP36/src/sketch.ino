@@ -52,7 +52,7 @@ void loop()
   // *** Determine the source voltage:
   voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
   voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
-  temperature = 100 * voltage - 50.0
+  temperature = 100 * voltage - 50.0;
 
   Serial.print(voltage);
   Serial.print(" V ; ");
