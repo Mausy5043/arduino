@@ -9,9 +9,11 @@
 #define activityLED 3
 
 // *** declare constants
-const float ref5V = 5.14;   // reference: 5.0V on measurePin == 1023.0
-const float R1 = 100000.0;  // Resistor value used for R1
-const float R2 = 10000.0;   // Resistor value used for R2
+const float ref5V = 5.14;   // reference: 5.14V on measurePin == 1023.0
+//const float R1 = 100000.0;  // Resistor value used for R1
+const float R1 = 99300.0;  // Measured resistor value used for R1
+//const float R2 = 10000.0;   // Resistor value used for R2
+const float R2 = 9870.0;   // Measured resistor value used for R2
 
 // (numSamples ^ 0.5) is the S/N ratio that can be achieved.
 // To get a S/N-ratio of 3 requires 9 samples. S/N=4 requires 16 samples
@@ -22,15 +24,14 @@ const float R2 = 10000.0;   // Resistor value used for R2
 const int numSamples = 16;  // number of measurements used for one result
 
 // *** declare calculated constants
-const float ratioRes = (R2/(R1 + R2));
-const float scaleRaw2Volts = ref5V / (ratioRes * 1023.0);
+const float ratioRes = ((R1 + R2)/R2) * 0.00001; // multiply by 1e-5 to get V
 
 // *** declare variables
 int sumSamples = 0;         // sum of samples
 int cntSamples = 0;         // sample counter
 float voltage = 0.0;
-unsigned long startTime;
-unsigned long elapsedTime;
+unsigned long startTime = 0;
+unsigned long elapsedTime = 0;
 
 void setup()
 {
@@ -47,12 +48,12 @@ void loop()
   // *** Add up the pre-defined number of samples for Sample Averaging
   for (cntSamples = 0; cntSamples < numSamples; cntSamples++) {
     sumSamples += analogRead(measurePin);
-    delay(10);
+    delay(200);
   }
 
   // *** Determine the source voltage:
   voltage = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
-  voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
+  voltage = map(voltage * 10, 0, 1023, 0, ref5V * 10000) * ratioRes;
 
   Serial.print(voltage);
   Serial.println(" V");
