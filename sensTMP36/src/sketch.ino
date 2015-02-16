@@ -1,12 +1,13 @@
 /*
   sensTMP36 sketch
-  measures the voltage on analog pin and prints the result to the serial port
-  Do not connect more than 5 volts directly to an Arduino pin!!
+  measures the voltage on analog pin
+  converts the result to a temperature
+  and prints the results to the serial port
 */
 
-// +V from battery is connected to analog pin 0
+// measurement pin from TMP36 is connected to analog pin 1
 #define measurePin A1
-#define activityLED 13
+#define activityLED 3
 
 // *** declare constants
 const float ref5V = 5.14;   // reference: 5.0V on measurePin == 1023.0
@@ -18,18 +19,15 @@ const float ref5V = 5.14;   // reference: 5.0V on measurePin == 1023.0
 // Beware, numSamples * 1024 should not exceed the positive maximum for the
 // `int` data-type!
 // Therefore the maximum numSamples = (32767 / 1023 = ) 32
-const int numSamples = 16;  // number of measurements used for one result
-
-// *** declare calculated constants
-const float scaleRaw2Volts = ref5V / 1023.0;
+const int numSamples = 10;  // number of measurements used for one result
 
 // *** declare variables
 int sumSamples = 0;         // sum of samples
 int cntSamples = 0;         // sample counter
 float voltage = 0.0;
 float temperature = 0.0;
-unsigned long startTime;
-unsigned long elapsedTime;
+unsigned long startTime = 0;
+unsigned long elapsedTime = 0;
 
 void setup()
 {
@@ -44,17 +42,18 @@ void loop()
   sumSamples = 0;
 
   // *** Add up the pre-defined number of samples for Sample Averaging
-  for (cntSamples = 0; cntSamples <= numSamples; cntSamples++) {
+  for (cntSamples = 0; cntSamples < numSamples; cntSamples++) {
     sumSamples += analogRead(measurePin);
-    delay(10);
+    // minimum delay on anaolg pins is 100ms
+    delay(200);
   }
 
   // *** Determine the source voltage:
-  voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
-  voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
+  voltage = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
+  voltage = map(voltage * 10, 0, 10230, 0, ref5V * 10000) * 0.0001;
   temperature = 100 * voltage - 50.0;
 
-  Serial.print(voltage);
+  Serial.print(voltage,5);
   Serial.print(" V ; ");
   Serial.print(temperature);
   Serial.println(" degC");

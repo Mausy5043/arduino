@@ -7,7 +7,7 @@
 #include <DHT.h>
 
 #define DHTPIN 4     // what pin we're connected to
-#define activityLED 13
+#define activityLED 3
 
 // Uncomment whatever type you're using!
 //#define DHTTYPE DHT11   // DHT 11

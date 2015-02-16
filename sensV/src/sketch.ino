@@ -6,7 +6,7 @@
 
 // +V from battery is connected to analog pin 0
 #define measurePin A0
-#define activityLED 13
+#define activityLED 3
 
 // *** declare constants
 const float ref5V = 5.14;   // reference: 5.0V on measurePin == 1023.0
@@ -45,13 +45,13 @@ void loop()
   sumSamples = 0;
 
   // *** Add up the pre-defined number of samples for Sample Averaging
-  for (cntSamples = 0; cntSamples <= numSamples; cntSamples++) {
+  for (cntSamples = 0; cntSamples < numSamples; cntSamples++) {
     sumSamples += analogRead(measurePin);
     delay(10);
   }
 
   // *** Determine the source voltage:
-  voltage = (float)sumSamples / (float)numSamples; // Calculate avg raw value.
+  voltage = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
   voltage *= scaleRaw2Volts;      // Scale avg raw value to source voltage.
 
   Serial.print(voltage);

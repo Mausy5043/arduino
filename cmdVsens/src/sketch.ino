@@ -10,7 +10,7 @@
 
 // +V from battery is connected to analog pin 0
 #define VoltMeasurePIN A0
-#define activityLED 13
+#define activityLED 3
 
 // *** declare constants
 const float REF5V = 5.00;   // reference: 5.0V on VoltMeasurePIN == 1023.0
@@ -52,14 +52,14 @@ float sensV() // measure the AverageValue
   int CountSamples = 0;         // sample counter
 
   // *** Add up the pre-defined number of samples for Sample Averaging
-  for (CountSamples = 0; CountSamples <= NUM_SAMPLES; CountSamples++)
+  for (CountSamples = 0; CountSamples < NUM_SAMPLES; CountSamples++)
   {
     SumSamples += analogRead(VoltMeasurePIN);
     delay(10);
   }
 
   // *** Determine the source AverageValue:
-  AverageValue = (float)SumSamples / (float)NUM_SAMPLES; // Calculate avg raw value.
+  AverageValue = (float)SumSamples / (float)CountSamples; // Calculate avg raw value.
   AverageValue *= SCALE_RAW_TO_VOLTS;      // Scale avg raw value to source AverageValue.
   return AverageValue;
 
