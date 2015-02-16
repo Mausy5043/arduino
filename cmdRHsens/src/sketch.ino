@@ -93,6 +93,7 @@ void loop() {
         Serial.print(", ");
         ReturnedValue = dht.computeDewPoint( t, h );
         Serial.print(ReturnedValue);        // AverageValue
+        Serial.print(", ");
         ReturnedValue = dht.computeDewPoint2( t, h );
         Serial.print(ReturnedValue);        // AverageValue
         break;
