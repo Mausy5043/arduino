@@ -120,10 +120,55 @@ float DHT::computeHeatIndexC(float tempCelsius, float percentHumidity) {
 
 float DHT::computeDewPoint(float tempCelsius, float percentHumidity) {
   // Source: http://nl.wikipedia.org/wiki/Dauwpunt
-  float alpha = 17.27;
+  float alpha = 17.271;
   float beta = 237.7; //degC
-  float gamma = (alpha * tempCelsius)/(beta + tempCelsius) + log(percentHumidity/100);
-  return (beta * gamma)/(alpha - gamma);
+  float gamma = (alpha * tempCelsius) / (beta + tempCelsius) + log(percentHumidity * 0.01);
+  return (beta * gamma) / (alpha - gamma);
+}
+
+float DHT::computeDewPoint2(float tempCelsius, float percentHumidity) {
+/*
+ reference: http://wahiduddin.net/calc/density_algorithms.htm
+
+USER_DEV:[GULIB.THERMOSRC]DWPT_TG.FOR;1
+
+        FUNCTION DWPT(T,RH)
+
+C       INCLUDE 'LIB_DEV:[GUDOC]EDFVAXBOX.FOR/LIST'
+C       Baker, Schlatter  17-MAY-1982     Original version.
+
+C   THIS FUNCTION RETURNS THE DEW POINT (CELSIUS) GIVEN THE TEMPERATURE
+C   (CELSIUS) AND RELATIVE HUMIDITY (%). THE FORMULA IS USED IN THE
+C   PROCESSING OF U.S. RAWINSONDE DATA AND IS REFERENCED IN PARRY, H.
+C   DEAN, 1969: "THE SEMIAUTOMATIC COMPUTATION OF RAWINSONDES,"
+C   TECHNICAL MEMORANDUM WBTM EDL 10, U.S. DEPARTMENT OF COMMERCE,
+C   ENVIRONMENTAL SCIENCE SERVICES ADMINISTRATION, WEATHER BUREAU,
+C   OFFICE OF SYSTEMS DEVELOPMENT, EQUIPMENT DEVELOPMENT LABORATORY,
+C   SILVER SPRING, MD (OCTOBER), PAGE 9 AND PAGE II-4, LINE 460.
+
+        X = 1.-0.01*RH
+
+C   COMPUTE DEW POINT DEPRESSION.
+
+        DPD =(14.55+0.114*T)*X+((2.5+0.007*T)*X)**3+(15.9+0.117*T)*X**14
+        DWPT = T-DPD
+        RETURN
+        END
+
+   TEMP  REL.HUM.   TD
+   ----  -------- ------
+    35    75.46   30.14
+    25    38.77    9.93
+     0    31.18  -15.19
+    20    12.22  -10.16
+    30    89.09   28.01
+*/
+  float inverseHumidity = 1 - 0.01 * percentHumidity;
+  float intermediate = 0.0;
+  intermediate = (14.55 + 0.114 * tempCelsius) * inverseHumidity;
+  intermediate += ((2.5 + 0.007 * tempCelsius) * inverseHumidity) ^ 3;
+  intermediate += (15.9 + 0.117 * tempCelsius) * inverseHumidity ^ 14;
+  return (tempCelsius - intermediate);
 }
 
 boolean DHT::read(void) {
