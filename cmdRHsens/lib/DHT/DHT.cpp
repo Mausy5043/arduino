@@ -5,19 +5,11 @@ written by Adafruit Industries
 
 Modifications by M. Hendrix (Mausy5043) FEB2015:
 - Added function computeDewPoint
-- Added slope and offset parameters for T and RH corrections if needed.
-  Use:
-  f *=slopeT;
-  f +=offsetT;
+- Added function computeDewPoint2
 
 */
 
 #include "DHT.h"
-
-const float DHTslopeT = 1.0;
-const float DHToffsetT = 0.0;
-const float DHTslopeH = 1.0;
-const float DHToffsetH = 0.0;
 
 DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
   _pin = pin;
@@ -83,13 +75,11 @@ float DHT::readHumidity(void) {
       f *= 256;
       f += data[1];
       f /= 10;
-
       return f;
     }
   }
   return NAN;
 }
-
 
 float DHT::computeHeatIndexF(float tempFahrenheit, float percentHumidity) {
   // Adapted from equation at: https://github.com/adafruit/DHT-sensor-library/issues/9 and
@@ -127,34 +117,34 @@ float DHT::computeDewPoint(float tempCelsius, float percentHumidity) {
 }
 
 float DHT::computeDewPoint2(float tempCelsius, float percentHumidity) {
-/*
- reference: http://wahiduddin.net/calc/density_algorithms.htm
-
-USER_DEV:[GULIB.THERMOSRC]DWPT_TG.FOR;1
-
+  /*
+  reference: http://wahiduddin.net/calc/density_algorithms.htm
+  _
+  USER_DEV:[GULIB.THERMOSRC]DWPT_TG.FOR;1
+  _
         FUNCTION DWPT(T,RH)
-
-C       INCLUDE 'LIB_DEV:[GUDOC]EDFVAXBOX.FOR/LIST'
-C       Baker, Schlatter  17-MAY-1982     Original version.
-
-C   THIS FUNCTION RETURNS THE DEW POINT (CELSIUS) GIVEN THE TEMPERATURE
-C   (CELSIUS) AND RELATIVE HUMIDITY (%). THE FORMULA IS USED IN THE
-C   PROCESSING OF U.S. RAWINSONDE DATA AND IS REFERENCED IN PARRY, H.
-C   DEAN, 1969: "THE SEMIAUTOMATIC COMPUTATION OF RAWINSONDES,"
-C   TECHNICAL MEMORANDUM WBTM EDL 10, U.S. DEPARTMENT OF COMMERCE,
-C   ENVIRONMENTAL SCIENCE SERVICES ADMINISTRATION, WEATHER BUREAU,
-C   OFFICE OF SYSTEMS DEVELOPMENT, EQUIPMENT DEVELOPMENT LABORATORY,
-C   SILVER SPRING, MD (OCTOBER), PAGE 9 AND PAGE II-4, LINE 460.
-
+  _
+  C       INCLUDE 'LIB_DEV:[GUDOC]EDFVAXBOX.FOR/LIST'
+  C       Baker, Schlatter  17-MAY-1982     Original version.
+  _
+  C   THIS FUNCTION RETURNS THE DEW POINT (CELSIUS) GIVEN THE TEMPERATURE
+  C   (CELSIUS) AND RELATIVE HUMIDITY (%). THE FORMULA IS USED IN THE
+  C   PROCESSING OF U.S. RAWINSONDE DATA AND IS REFERENCED IN PARRY, H.
+  C   DEAN, 1969: "THE SEMIAUTOMATIC COMPUTATION OF RAWINSONDES,"
+  C   TECHNICAL MEMORANDUM WBTM EDL 10, U.S. DEPARTMENT OF COMMERCE,
+  C   ENVIRONMENTAL SCIENCE SERVICES ADMINISTRATION, WEATHER BUREAU,
+  C   OFFICE OF SYSTEMS DEVELOPMENT, EQUIPMENT DEVELOPMENT LABORATORY,
+  C   SILVER SPRING, MD (OCTOBER), PAGE 9 AND PAGE II-4, LINE 460.
+  _
         X = 1.-0.01*RH
-
-C   COMPUTE DEW POINT DEPRESSION.
-
+  _
+  C   COMPUTE DEW POINT DEPRESSION.
+  _
         DPD =(14.55+0.114*T)*X+((2.5+0.007*T)*X)**3+(15.9+0.117*T)*X**14
         DWPT = T-DPD
         RETURN
         END
-
+  _
    TEMP  REL.HUM.   TD
    ----  -------- ------
     35    75.46   30.14
@@ -162,7 +152,7 @@ C   COMPUTE DEW POINT DEPRESSION.
      0    31.18  -15.19
     20    12.22  -10.16
     30    89.09   28.01
-*/
+  */
   float inverseHumidity = 1 - 0.01 * percentHumidity;
   float intermediate = 0.0;
   intermediate = (14.55 + 0.114 * tempCelsius) * inverseHumidity;

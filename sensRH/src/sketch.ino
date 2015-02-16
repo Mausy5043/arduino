@@ -1,7 +1,6 @@
 // Example testing sketch for various DHT humidity/temperature sensors
 // Written by ladyada, public domain
 
-
 // Dewpoint:  http://www.dpcalc.org
 
 #include <DHT.h>
