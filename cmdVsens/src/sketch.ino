@@ -29,7 +29,7 @@ const float R2 = 9870.0;   // Measured resistor value used for R2
 const int NUM_SAMPLES = 16;  // number of measurements used for one result
 
 // *** declare calculated constants
-const float RATIO_RESISTORS = (R2/(R1 + R2)) * 0.00001;
+const float RATIO_RESISTORS = ((R1 + R2)/R2) * 0.00001;
 
 // *** declare variables
 float voltage = 0.0;
@@ -66,10 +66,9 @@ float sensV() // measure the AverageValue
 
   // *** Determine the source AverageValue:
   AverageValue = (float)SumSamples / (float)CountSamples; // Calculate avg raw value.
-  AverageValue = map(AverageValue * 10, 0, 1023, 0 ref5V *10000); // map raw value to 0...5V
+  AverageValue = map(AverageValue * 10, 0, 1023, 0, ref5V *10000); // map raw value to 0...5V
   AverageValue *= RATIO_RESISTORS; // account for voltage-reduction
   return AverageValue;
-
 }
 
 void loop()

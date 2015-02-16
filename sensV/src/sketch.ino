@@ -9,7 +9,7 @@
 */
 
 // +V from battery is connected to analog pin 0
-#define VoltMeasurePin A0
+#define VoltMeasurePIN A0
 #define activityLED 3
 
 // *** declare constants
@@ -66,6 +66,7 @@ float sensV()
 }
 
 void loop()
+
 {
   startTime = millis();
   digitalWrite(activityLED, HIGH);
