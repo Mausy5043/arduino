@@ -166,8 +166,8 @@ C   COMPUTE DEW POINT DEPRESSION.
   float inverseHumidity = 1 - 0.01 * percentHumidity;
   float intermediate = 0.0;
   intermediate = (14.55 + 0.114 * tempCelsius) * inverseHumidity;
-  intermediate += ((2.5 + 0.007 * tempCelsius) * inverseHumidity) ^ 3;
-  intermediate += (15.9 + 0.117 * tempCelsius) * inverseHumidity ^ 14;
+  intermediate += pow(((2.5 + 0.007 * tempCelsius) * inverseHumidity), 3);
+  intermediate += (15.9 + 0.117 * tempCelsius) * pow(inverseHumidity, 14);
   return (tempCelsius - intermediate);
 }
 
