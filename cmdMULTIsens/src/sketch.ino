@@ -29,8 +29,8 @@ void setup()
   digitalWrite(ActivityLED, HIGH);  // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.println("cmdMULTIsens");   // Print banner
-  tmp36.begin(tmp36Samples);        // Initialise TMP36 sensor
-  dht.begin();
+  tmp36.begin();                    // Initialise TMP36 sensor
+  dht.begin();                      // Initialise DHT22 sensor
   delay(2000);                      // Wait 2s for all sensors to come online
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
@@ -43,6 +43,7 @@ int serialRX()
 void loop()
 {
   byte ActionRequest;
+  float Value
 
   if (Serial.available() > 0)
   {
@@ -62,8 +63,9 @@ void loop()
         break;
       case 'T':
       case 't':
-        TemperatureTmp36 = tmp36.readTemperature();
-        Serial.print(TemperatureTmp36);
+        // TMP36 temperature
+        Value = tmp36.readTemperature();
+        Serial.print(Value);
         break;
       default:
         Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
