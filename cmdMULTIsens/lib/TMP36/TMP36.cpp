@@ -23,5 +23,5 @@ void TMP36::begin()
 
 float TMP36::readTemperature(void)
 {
-  return 0.0;
+  return -0.01;
 }
