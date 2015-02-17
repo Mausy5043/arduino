@@ -43,7 +43,7 @@ int serialRX()
 void loop()
 {
   byte ActionRequest;
-  float Value
+  float Value;
 
   if (Serial.available() > 0)
   {
