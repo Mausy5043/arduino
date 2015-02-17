@@ -24,19 +24,19 @@ void TMP36::begin()
 
 float TMP36::readTemperature(void)
 {
-  int cntSamples;
-  int sumSamples;
-  float measurement;
+  int cntSamples = 0;
+  int sumSamples = 0;
+  float measurement = 0.0;
 
   // add up the pre-defined number of _samples for Sample Averaging
   for (cntSamples = 0; cntSamples < _samples; cntSamples++)
   {
     sumSamples += analogRead(_pin);
     // minimum delay on analog pins is 100ms
+    Serial.println(sumSamples);
     delay(110);
   }
   measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
   measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
-  return measurement;
-  // return 100 * measurement - 50.0;
+  return 100 * measurement - 50.0;
 }
