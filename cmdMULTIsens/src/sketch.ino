@@ -62,11 +62,12 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (T,S,H,D,E)");
+        Serial.println("A | a : All sensor and calculated values (T,S,H,D,E,I)");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
-        Serial.println("R | r : DHT22 all sensor data (S,H,D,E)");
+        Serial.println("I | i : DHT22 calculated Heat index")
+        Serial.println("R | r : DHT22 all sensor data (S,H,D,E,I)");
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
         break;
@@ -88,6 +89,12 @@ void loop()
         Value = dht.readHumidity();
         Serial.print(Value);
         break;
+      case 'I':
+      case 'i':
+        // DHT calculated HeatIndex
+        Value = computeHeatIndex(dht.readTemperature(), dht.readHumidity());
+        Serial.print(Value);
+        break;
       case 'A':
       case 'a':
       case 'R':
@@ -99,7 +106,7 @@ void loop()
           Serial.print(Value);
           Serial.print(", ");
         }
-        // All DHT22 data: Temperature, Humidity, DewPoint, DewPoint2
+        // All DHT22 data: Temperature, Humidity, DewPoint, DewPoint2, HeatIndex
         t = dht.readTemperature();
         Serial.print(t);
         Serial.print(", ");
@@ -110,6 +117,9 @@ void loop()
         Serial.print(Value);
         Serial.print(", ");
         Value = dht.computeDewPoint2(t, h);
+        Serial.print(Value);
+        Serial.print(", ");
+        Value = dht.computeHeatIndex(t, h);
         Serial.print(Value);
         break;
       case 'S':
