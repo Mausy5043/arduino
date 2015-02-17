@@ -43,7 +43,7 @@ float DHT::readTemperature(void) {
       f = data[2] & 0x7F;
       f *= 256;
       f += data[3];
-      f /= 10;
+      f *= 0.10;
       if (data[2] & 0x80)
       {
 	       f *= -1;
@@ -57,11 +57,11 @@ float DHT::readTemperature(void) {
 }
 
 float DHT::convertCtoF(float c) {
-	return c * 9 / 5 + 32;
+	return c * 9 * 0.2 + 32;
 }
 
 float DHT::convertFtoC(float f) {
-  return (f - 32) * 5 / 9;
+  return (f - 32) * 5 * 0.11111111;
 }
 
 float DHT::readHumidity(void) {
@@ -77,7 +77,7 @@ float DHT::readHumidity(void) {
       f = data[0];
       f *= 256;
       f += data[1];
-      f /= 10;
+      f *= 0.10;
       break;
       //return f;
     }
