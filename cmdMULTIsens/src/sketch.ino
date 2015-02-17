@@ -20,8 +20,8 @@
 
 // Initialize DHT sensor for normal 16mhz Arduino
 DHT dht(Dht22Pin, DhtType);
-// Initialise TMP36 library
-TMP36 tmp36(Tmp36Pin, Tmp36Samples);
+// Initialise TMP36 library: measurement pin, number of samples to average, 5V reference
+TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.06);
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
