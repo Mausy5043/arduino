@@ -36,7 +36,7 @@ float DHT::readTemperature(void) {
     switch (_type) {
     case DHT11:
       f = data[2];
-
+      break;
       //return f;
     case DHT22:
     case DHT21:
@@ -45,8 +45,10 @@ float DHT::readTemperature(void) {
       f += data[3];
       f /= 10;
       if (data[2] & 0x80)
+      {
 	       f *= -1;
-
+      }
+      break;
       //return f;
     }
     return f;
@@ -68,6 +70,7 @@ float DHT::readHumidity(void) {
     switch (_type) {
     case DHT11:
       f = data[0];
+      break;
       //return f;
     case DHT22:
     case DHT21:
@@ -75,9 +78,10 @@ float DHT::readHumidity(void) {
       f *= 256;
       f += data[1];
       f /= 10;
+      break;
       //return f;
     }
-    return f
+    return f;
   }
   return NAN;
 }
