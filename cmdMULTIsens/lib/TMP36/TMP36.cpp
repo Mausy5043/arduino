@@ -36,6 +36,7 @@ float TMP36::readTemperature(void)
     delay(110);
   }
   measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
-  measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
-  return 100 * measurement - 50.0;
+  // measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
+  return measurement;
+  // return 100 * measurement - 50.0;
 }
