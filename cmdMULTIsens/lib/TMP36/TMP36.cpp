@@ -33,7 +33,6 @@ float TMP36::readTemperature(void)
   {
     sumSamples += analogRead(_pin);
     // minimum delay on analog pins is 100ms
-    Serial.println(sumSamples);
     delay(110);
   }
   measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
