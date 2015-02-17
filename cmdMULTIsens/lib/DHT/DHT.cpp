@@ -175,14 +175,13 @@ float DHT::computeHeatIndex(float tempCelsius, float percentHumidity)
 
     if ((rh > 85.0) && (t >= 80.0) && (t <= 87.0))
     {
-      adj = rh - 85.0;
-      adj *= 0.1;
+      adj = (rh - 85.0) * 0.10;
       adj *= ((87.0 - t) * 0.2);
     }
 
     hi += adj;
   }
-  
+
   return = convertFtoC(hi);
 }
 
