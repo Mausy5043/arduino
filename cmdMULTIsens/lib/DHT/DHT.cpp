@@ -86,16 +86,104 @@ float DHT::readHumidity(void) {
   return NAN;
 }
 
-float DHT::computeHeatIndex(float tempCelsius, float percentHumidity) {
-  return -8.784695 +
-          1.61139411 * tempCelsius +
-          2.33854900 * percentHumidity +
-         -0.14611605 * tempCelsius*percentHumidity +
-         -0.01230809 * pow(tempCelsius, 2) +
-         -0.01642482 * pow(percentHumidity, 2) +
-          0.00221173 * pow(tempCelsius, 2) * percentHumidity +
-          0.00072546 * tempCelsius * pow(percentHumidity, 2) +
-         -0.00000358 * pow(tempCelsius, 2) * pow(percentHumidity, 2);
+float DHT::computeHeatIndex(float tempCelsius, float percentHumidity)
+{
+  float t = convertCtoF(tempCelsius);
+  float rh = percentHumidity;
+  float hi = -100.0;
+  float adj = 0.0;
+
+  /*  Source: http://www.hpc.ncep.noaa.gov/html/heatindex_equation.shtml
+  The Heat Index Equation
+
+  The computation of the heat index is a refinement of a result obtained by
+  multiple regression analysis carried out by Lans P. Rothfusz and described in a
+  1990 National Weather Service (NWS) Technical Attachment (SR 90-23).
+  */
+  /*
+  The Rothfusz regression is not appropriate when conditions of temperature and
+  humidity warrant a heat index value below about 80 degrees F. In those cases, a
+  simpler formula is applied to calculate values consistent with Steadman's
+  results:
+
+  HI = 0.5 * {T + 61.0 + [(T-68.0)*1.2] + (RH*0.094)}
+  */
+
+  hi = rh * 0.094;
+  hi += ((t - 68.0) * 1.2);
+  hi += 61.0;
+  hi +=  t;
+  hi *= 0.5;
+
+  /*
+  In practice, the simple formula is computed first and the result averaged with
+  the temperature. If this heat index value is 80 degrees F or higher, the full
+  regression equation along with any adjustment as described below is applied. The
+  Rothfusz regression is not valid for extreme temperature and relative humidity
+  conditions beyond the range of data considered by Steadman.
+  */
+
+  hi = ((hi + t) * 0.5);
+  if (hi >= 80.0)
+  {
+    /*
+    The regression equation of Rothfusz is:
+
+    HI = -42.379 + 2.04901523*T + 10.14333127*RH - .22475541*T*RH - .00683783*T*T
+    - .05481717*RH*RH + .00122874*T*T*RH + .00085282*T*RH*RH - .00000199*T*T*RH*RH
+
+    where T is temperature in degrees F and RH is relative humidity in percent.  HI
+    is the heat index expressed as an apparent temperature in degrees F.
+    */
+
+    hi = -42.379;
+    hi += 2.04901523 * t;
+    hi += 10.14333127 * rh;
+    hi -= 0.22475541 * t * rh;
+    hi -= 0.00683783 * t * t;
+    hi -= 0.05481717 * rh * rh;
+    hi += 0.00122874 * t * t * rh;
+    hi += 0.00085282 * t * rh * rh;
+    hi -= 0.00000199 * t * t * rh * rh;
+
+    /*
+    If the RH is less than 13% and the temperature is between 80 and 112 degrees F,
+    then the following adjustment is subtracted from HI:
+
+    ADJUSTMENT = [(13-RH)/4]*SQRT{[17-ABS(T-95.)]/17}
+
+    where ABS and SQRT are the absolute value and square root functions,
+    respectively.
+    */
+
+    if ((rh < 13.0) && (t >= 80.0) && (t <= 112.0))
+    {
+      adj = abs(t - 95.0);
+      adj = (17.0 - adj);
+      adj *= 0.05882352941; // 1/17
+      adj = sqrt(adj);
+      adj *= ((13.0 - rh) * 0.25);
+    }
+
+    /*
+    On the other hand, if the RH is greater than 85% and the
+    temperature is between 80 and 87 degrees F, then the following adjustment is
+    added to HI:
+
+    ADJUSTMENT = [(RH-85)/10] * [(87-T)/5]
+    */
+
+    if ((rh > 85.0) && (t >= 80.0) && (t <= 87.0))
+    {
+      adj = rh - 85.0;
+      adj *= 0.1;
+      adj *= ((87.0 - t) * 0.2);
+    }
+
+    hi += adj;
+  }
+  
+  return = convertFtoC(hi);
 }
 
 float DHT::computeDewPoint(float tempCelsius, float percentHumidity) {
