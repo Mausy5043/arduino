@@ -65,7 +65,7 @@ void loop()
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
-        Serial.println("R | r : DHT22 all sensor data (S,H,D,E)")
+        Serial.println("R | r : DHT22 all sensor data (S,H,D,E)");
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
         break;
