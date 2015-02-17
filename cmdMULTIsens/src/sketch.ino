@@ -59,7 +59,7 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("H | h : DHT22 humidity")
+        Serial.println("H | h : DHT22 humidity");
         Serial.println("T | t : TMP36 temperature");
         break;
       case 'H':
