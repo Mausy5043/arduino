@@ -6,6 +6,9 @@ written by Adafruit Industries
 Modifications by M. Hendrix (Mausy5043) FEB2015:
 - Added function computeDewPoint
 - Added function computeDewPoint2
+- Removed internal support of Fahrenheit. C2F and F2C conversions remain.
+  Users is expected to convert Celsius to Fahrenheit when needed using
+  the functions provided.
 
 */
 
@@ -25,16 +28,13 @@ void DHT::begin(void) {
   _lastreadtime = 0;
 }
 
-//boolean S == Scale.  True == Farenheit; False == Celcius
-float DHT::readTemperature(bool S) {
+float DHT::readTemperature(void) {
   float f;
 
   if (read()) {
     switch (_type) {
     case DHT11:
       f = data[2];
-      if(S)
-      	f = convertCtoF(f);
 
       return f;
     case DHT22:
@@ -45,8 +45,6 @@ float DHT::readTemperature(bool S) {
       f /= 10;
       if (data[2] & 0x80)
 	       f *= -1;
-      if(S)
-	       f = convertCtoF(f);
 
       return f;
     }
@@ -79,21 +77,6 @@ float DHT::readHumidity(void) {
     }
   }
   return NAN;
-}
-
-float DHT::computeHeatIndexF(float tempFahrenheit, float percentHumidity) {
-  // Adapted from equation at: https://github.com/adafruit/DHT-sensor-library/issues/9 and
-  // Wikipedia: http://en.wikipedia.org/wiki/Heat_index
-  // NOAA: http://www.wpc.ncep.noaa.gov/html/heatindex_equation.shtml
-  return -42.379 +
-           2.04901523 * tempFahrenheit +
-          10.14333127 * percentHumidity +
-          -0.22475541 * tempFahrenheit*percentHumidity +
-          -0.00683783 * pow(tempFahrenheit, 2) +
-          -0.05481717 * pow(percentHumidity, 2) +
-           0.00122874 * pow(tempFahrenheit, 2) * percentHumidity +
-           0.00085282 * tempFahrenheit*pow(percentHumidity, 2) +
-          -0.00000199 * pow(tempFahrenheit, 2) * pow(percentHumidity, 2);
 }
 
 float DHT::computeHeatIndexC(float tempCelsius, float percentHumidity) {

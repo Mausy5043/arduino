@@ -31,11 +31,9 @@ class DHT {
  public:
   DHT(uint8_t pin, uint8_t type, uint8_t count=6);
   void begin(void);
-  float readTemperature(bool S=false);
+  float readTemperature(void);
   float convertCtoF(float);
   float convertFtoC(float);
-  float computeHeatIndexF(float tempFahrenheit, float percentHumidity);
-  float computeHeatIndexC(float tempCelsius, float percentHumidity);
   float computeDewPoint(float tempCelsius, float percentHumidity);
   float computeDewPoint2(float tempCelsius, float percentHumidity);
   float readHumidity(void);
