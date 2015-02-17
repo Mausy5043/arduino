@@ -74,4 +74,5 @@ void loop()
     Serial.println(" !");             // Signal end of telegram
 
     digitalWrite(ActivityLED, LOW);   // end of activity
+  }
 }
