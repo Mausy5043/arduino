@@ -182,7 +182,7 @@ float DHT::computeHeatIndex(float tempCelsius, float percentHumidity)
     hi += adj;
   }
 
-  return = convertFtoC(hi);
+  return convertFtoC(hi);
 }
 
 float DHT::computeDewPoint(float tempCelsius, float percentHumidity) {
