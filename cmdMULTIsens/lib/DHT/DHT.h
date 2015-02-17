@@ -39,7 +39,7 @@ class DHT {
   float readTemperature(void);
   float convertCtoF(float);
   float convertFtoC(float);
-  float computeHeatIndexC(float tempCelsius, float percentHumidity);
+  float computeHeatIndex(float tempCelsius, float percentHumidity);
   float computeDewPoint(float tempCelsius, float percentHumidity);
   float computeDewPoint2(float tempCelsius, float percentHumidity);
   float readHumidity(void);
