@@ -23,6 +23,9 @@ DHT dht(Dht22Pin, DhtType);
 // Initialise TMP36 library
 TMP36 tmp36(Tmp36Pin, Tmp36Samples);
 
+float h;  // used for calculating dewpoint
+float t;  // used for calculating dewpoint
+
 void setup()
 {
   pinMode(ActivityLED, OUTPUT);     // An LED to signal activity
@@ -87,10 +90,10 @@ void loop()
       case 'R':
       case 'r':
         // All DHT22 data: Temperature, Humidity, DewPoint, DewPoint2
-        float t = dht.readTemperature();
+        t = dht.readTemperature();
         Serial.print(t);
         Serial.print(", ");
-        float h = dht.readHumidity();
+        h = dht.readHumidity();
         Serial.print(h);
         Serial.print(", ");
         Value = dht.computeDewPoint(t, h);
