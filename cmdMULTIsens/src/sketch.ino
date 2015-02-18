@@ -6,6 +6,7 @@
 #include <VBAT.h>
 #include <TMP36.h>
 #include <DHT.h>
+#include <DS18B20.h>
 
 // An LED is connected to pin 3
 #define ActivityLED 3
@@ -26,13 +27,21 @@
 // number of samples to be averaged
 #define Tmp36Samples 16
 
-// Initialize DHT sensor for normal 16mhz Arduino
+#define DS18Pin 10
+#define DS18Samples 3
+
+// Initialise DHT sensor: measurement pin, sensortype
 DHT dht(Dht22Pin, DhtType);
+
 // Initialise VBAT library: measurement pin, number of samples to average,
 //        5V reference [V], R1 [Ohm], R2 [Ohm]
 VBAT vbat(VbatPin, VbatSamples, 5.14, 99300.0,  9870.0);
+
 // Initialise TMP36 library: measurement pin, number of samples to average, 5V reference
 TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.06);
+
+// Initialise DS18B20 library: measurement pin, number of samples to average
+DS18B20 ds1w(DS18Pin, DS18Samples);
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
@@ -83,6 +92,7 @@ void loop()
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
         Serial.println("V | v : VBAT voltage");
+        Serial.println("W | w : DS18B20 (1-wire) temperature")
         break;
       case 'D':
       case 'd':
@@ -116,6 +126,10 @@ void loop()
         {
           // TMP36 temperature
           Value = tmp36.readTemperature();
+          Serial.print(Value);
+          Serial.print(", ");
+          // DS18B20 temperature
+          Value = ds1w.readTemperature();
           Serial.print(Value);
           Serial.print(", ");
         }
@@ -158,6 +172,12 @@ void loop()
       case 'v':
         // VBAT voltage
         Value = vbat.readVoltage();
+        Serial.print(Value);
+        break;
+      case 'W':
+      case 'w':
+        // DS18B20 temperature
+        Value = ds1w.readTemperature();
         Serial.print(Value);
         break;
       default:
