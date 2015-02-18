@@ -22,7 +22,7 @@ void VBAT::begin(void)
   // set up the pin!
   pinMode(_pin, INPUT);
   _r12 = ((_r1 + _r2)/_r2);
-  _invsamples =  1/_samples;
+  _invsamples =  1.0/(float)_samples;
   //_lastreadtime = 0;
 }
 
@@ -39,7 +39,7 @@ float VBAT::readVoltage(void)
     // minimum delay on analog pins is 100ms
     delay(110);
   }
-  measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
+  measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
   measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
   measurement *= _r12;
   return measurement;
