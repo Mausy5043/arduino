@@ -13,7 +13,7 @@
 class VBAT
 {
   public:
-    VBAT(int pin, int samples, float ref5v);
+    VBAT(int pin, int samples, float ref5v, float r1, float r2);
     void begin(void);
     float readVoltage(void);
 
