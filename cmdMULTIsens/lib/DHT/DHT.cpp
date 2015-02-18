@@ -37,7 +37,6 @@ float DHT::readTemperature(void) {
     case DHT11:
       f = data[2];
       break;
-      //return f;
     case DHT22:
     case DHT21:
       f = data[2] & 0x7F;
@@ -49,7 +48,6 @@ float DHT::readTemperature(void) {
 	       f *= -1;
       }
       break;
-      //return f;
     }
     return f;
   }
@@ -71,7 +69,6 @@ float DHT::readHumidity(void) {
     case DHT11:
       f = data[0];
       break;
-      //return f;
     case DHT22:
     case DHT21:
       f = data[0];
@@ -79,7 +76,6 @@ float DHT::readHumidity(void) {
       f += data[1];
       f *= 0.10;
       break;
-      //return f;
     }
     return f;
   }

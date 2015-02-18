@@ -13,8 +13,8 @@
 // measurement pin of DHT22 is connected to digital pin 4
 #define Dht22Pin 4
 #define DhtType DHT22
-// number of samples to be averaged
-#define Dht22Samples 16
+// number of samples to be averaged (not used!)
+// #define Dht22Samples 16
 
 // measurement pin of TMP36 is connected to analog pin 1
 #define VbatPin A0
