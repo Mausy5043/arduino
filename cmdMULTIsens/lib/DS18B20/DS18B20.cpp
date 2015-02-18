@@ -19,7 +19,7 @@ void DS18B20::begin(void)
   // set up the pin!
   OneWire _1wire(_pin);
   _invsamples =  1.0/(float)_samples;
-  if ( !ds.search(_addr))
+  if ( !_1wire.search(_addr))
   {
     Serial.println("No sensor.");
   }
