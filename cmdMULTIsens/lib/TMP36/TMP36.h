@@ -20,6 +20,7 @@ class TMP36
     int _pin;       // which pin the TMP36 is connected to
     int _samples;   // number of samples used for averaging
     float _ref5v;   // 5V reference value used for TMP36
+    float _invsamples; // (1/_samples) for faster multiplications
 };
 
 #endif
