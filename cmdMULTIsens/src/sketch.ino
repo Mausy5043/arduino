@@ -8,18 +8,28 @@
 
 // An LED is connected to pin 3
 #define ActivityLED 3
+
 // measurement pin of DHT22 is connected to digital pin 4
 #define Dht22Pin 4
 #define DhtType DHT22
-#define Dht22Samples 3
+// number of samples to be averaged
+#define Dht22Samples 16
+
+// measurement pin of TMP36 is connected to analog pin 1
+#define VbatPin A0
+// number of samples to be averaged
+#define VbatSamples 16
 
 // measurement pin of TMP36 is connected to analog pin 1
 #define Tmp36Pin A1
 // number of samples to be averaged
-#define Tmp36Samples 3
+#define Tmp36Samples 16
 
 // Initialize DHT sensor for normal 16mhz Arduino
 DHT dht(Dht22Pin, DhtType);
+// Initialise VBAT library: measurement pin, number of samples to average,
+//        5V reference [V], R1 [Ohm], R2 [Ohm]
+VBAT vbat(VbatPin, VbatSamples, 5.14, 99300.0,  9870.0);
 // Initialise TMP36 library: measurement pin, number of samples to average, 5V reference
 TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.06);
 
@@ -33,6 +43,7 @@ void setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.println("cmdMULTIsens");   // Print banner
   tmp36.begin();                    // Initialise TMP36 sensor
+  vbat.begin();                     // Initialise VBAT sensor
   dht.begin();                      // Initialise DHT22 sensor
   delay(2000);                      // Wait 2s for all sensors to come online
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
@@ -70,6 +81,7 @@ void loop()
         Serial.println("R | r : DHT22 all sensor data (S,H,D,E,I)");
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
+        Serial.println("V | v : VBAT voltage");
         break;
       case 'D':
       case 'd':
@@ -121,6 +133,13 @@ void loop()
         Serial.print(", ");
         Value = dht.computeHeatIndex(t, h);
         Serial.print(Value);
+        if ((ActionRequest == 'A') || (ActionRequest == 'a'))
+        {
+          // VBAT voltage
+          Serial.print(", ");
+          Value = vbat.readVoltage();
+          Serial.print(Value);
+        }
         break;
       case 'S':
       case 's':
@@ -132,6 +151,12 @@ void loop()
       case 't':
         // TMP36 temperature
         Value = tmp36.readTemperature();
+        Serial.print(Value);
+        break;
+      case 'V':
+      case 'v':
+        // VBAT voltage
+        Value = vbat.readVoltage();
         Serial.print(Value);
         break;
       default:
