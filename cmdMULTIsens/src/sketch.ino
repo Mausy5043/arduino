@@ -92,7 +92,7 @@ void loop()
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
         Serial.println("V | v : VBAT voltage");
-        Serial.println("W | w : DS18B20 (1-wire) temperature")
+        Serial.println("W | w : DS18B20 (1-wire) temperature");
         break;
       case 'D':
       case 'd':
