@@ -17,8 +17,12 @@ DS18B20::DS18B20(int pin, int samples)
 void DS18B20::begin(void)
 {
   // set up the pin!
-  pinMode(_pin, INPUT);
+  OneWire _1wire(_pin);
   _invsamples =  1.0/(float)_samples;
+  if ( !ds.search(_addr))
+  {
+    Serial.println("No sensor.");
+  }
 }
 
 float DS18B20::readTemperature(void)

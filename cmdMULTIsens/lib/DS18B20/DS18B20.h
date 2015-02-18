@@ -22,6 +22,8 @@ class DS18B20
     int _pin;       // which pin the +V is connected to
     int _samples;   // number of samples used for averaging
     float _invsamples; // (1/_samples) for faster multiplications
+    byte _addr[8];
+    byte _data[12];
 };
 
 #endif

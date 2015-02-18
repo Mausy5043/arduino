@@ -51,11 +51,13 @@ void setup()
   pinMode(ActivityLED, OUTPUT);     // An LED to signal activity
   digitalWrite(ActivityLED, HIGH);  // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
-  Serial.println("cmdMULTIsens");   // Print banner
+  Serial.print("...");
   tmp36.begin();                    // Initialise TMP36 sensor
   vbat.begin();                     // Initialise VBAT sensor
   dht.begin();                      // Initialise DHT22 sensor
+  ds1w.begin();                     // Initialise DS18B20/1-wire sensor
   delay(2000);                      // Wait 2s for all sensors to come online
+  Serial.println("cmdMULTIsens ready !");   // Print banner
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
 
