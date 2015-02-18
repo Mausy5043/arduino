@@ -55,11 +55,11 @@ float DHT::readTemperature(void) {
 }
 
 float DHT::convertCtoF(float c) {
-	return c * 9 * 0.2 + 32;
+	return c * 1.8 + 32;
 }
 
 float DHT::convertFtoC(float f) {
-  return (f - 32) * 5 * 0.11111111;
+  return (f - 32) * 0.55555556;
 }
 
 float DHT::readHumidity(void) {
