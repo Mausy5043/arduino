@@ -1,6 +1,5 @@
 /*
-  DS18B20.h - Library for reading the voltage of a battery or solarcell.
-  See sensV for circuitry.
+  DS18B20.h - ...
   Created by Maurice (Mausy5043) Hendrix, FEB2015
 
   MIT license
