@@ -3,6 +3,7 @@
 
 */
 
+#include <VBAT.h>
 #include <TMP36.h>
 #include <DHT.h>
 
