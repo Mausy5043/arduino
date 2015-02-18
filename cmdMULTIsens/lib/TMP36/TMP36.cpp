@@ -18,7 +18,7 @@ void TMP36::begin()
 {
   // set up the pin!
   pinMode(_pin, INPUT);
-  _invsamples =  1/_samples;
+  _invsamples =  1.0/(float)_samples;
   //_lastreadtime = 0;
 }
 
@@ -35,8 +35,8 @@ float TMP36::readTemperature(void)
     // minimum delay on analog pins is 100ms
     delay(110);
   }
-  // measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
-  measurement = (float)sumSamples * (float)_invsamples; // Calculate avg raw value.
+  //measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
+  measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
   measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
   return 100 * measurement - 50.0;
 }
