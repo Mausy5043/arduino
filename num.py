@@ -13,7 +13,7 @@ print a, b
 
 print numpy.corrcoef(X,Y)[0,1]
 
-print a*X[0]+b, Y[0]
+print X[-1], a*X[-1]+b, Y[-1]
 
 
 X = C23[:,1]
@@ -25,7 +25,7 @@ print a, b
 
 print numpy.corrcoef(X,Y)[0,1]
 
-print a*X[0]+b, Y[0]
+print X[-1], a*X[-1]+b, Y[-1]
 
 
 X = C56[:,1]
@@ -37,4 +37,4 @@ print a, b
 
 print numpy.corrcoef(X,Y)[0,1]
 
-print a*X[0]+b, Y[0]
+print X[-1], a*X[-1]+b, Y[-1]
