@@ -6,7 +6,8 @@
 #include <VBAT.h>
 #include <TMP36.h>
 #include <DHT.h>
-#include <DS18B20.h>
+#include <OneWire.h>
+//#include <DS18B20.h>
 
 // An LED is connected to pin 3
 #define ActivityLED 3
@@ -41,10 +42,13 @@ VBAT vbat(VbatPin, VbatSamples, 5.14, 99300.0,  9870.0);
 TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.06);
 
 // Initialise DS18B20 library: measurement pin, number of samples to average
-DS18B20 ds1w(DS18Pin, DS18Samples);
+//DS18B20 ds1w(DS18Pin, DS18Samples);
+OneWire ds1w(DS18Pin);
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
+byte ds1w_addr[8];
+byte ds1w_data[12];
 
 void setup()
 {
@@ -55,7 +59,10 @@ void setup()
   tmp36.begin();                    // Initialise TMP36 sensor
   vbat.begin();                     // Initialise VBAT sensor
   dht.begin();                      // Initialise DHT22 sensor
-  ds1w.begin();                     // Initialise DS18B20/1-wire sensor
+  if ( !ds1w.search(ds1w_addr))
+  {
+    Serial.println("No sensor.");
+  }
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println("cmdMULTIsens ready !");   // Print banner
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
@@ -64,6 +71,73 @@ void setup()
 int serialRX()
 {
   return Serial.read();             // read a byte from the serialbuffer
+}
+
+float readDSTemperature(void)
+{
+  int cntSamples = 0;
+  int sumSamples = 0;
+  float measurement = 0.0;
+  int i = 0;
+  int type_s = 0;
+
+  ds1w.reset();
+  ds1w.select(ds1w_addr);
+  ds1w.write(0x44, 1);        // start conversion, with parasite power on at the end
+
+  delay(1000);     // maybe 750ms is enough, maybe not
+  byte present = ds1w.reset();
+  ds1w.select(ds1w_addr);
+  ds1w.write(0xBE);         // Read Scratchpad
+
+  //Serial.print("  Data = ");
+  //Serial.print(present, HEX);
+  //Serial.print(" ");
+  for ( i = 0; i < 9; i++) {           // we need 9 bytes
+    ds1w_data[i] = ds1w.read();
+    //Serial.print(ds1w_data[i], HEX);
+    //Serial.print(" ");
+  }
+  //Serial.print(" CRC=");
+  //Serial.print(OneWire::crc8(ds1w_data, 8), HEX);
+  //Serial.println();
+
+  // Convert the data to actual temperature
+  // because the result is a 16 bit signed integer, it should
+  // be stored to an "int16_t" type, which is always 16 bits
+  // even when compiled on a 32 bit processor.
+  int16_t raw = (ds1w_data[1] << 8) | ds1w_data[0];
+  if (type_s) {
+    raw = raw << 3; // 9 bit resolution default
+    if (ds1w_data[7] == 0x10) {
+      // "count remain" gives full 12 bit resolution
+      raw = (raw & 0xFFF0) + 12 - ds1w_data[6];
+    }
+  } else {
+    byte cfg = (ds1w_data[4] & 0x60);
+    // at lower res, the low bits are undefined, so let's zero them
+    if (cfg == 0x00) raw = raw & ~7;  // 9 bit resolution, 93.75 ms
+    else if (cfg == 0x20) raw = raw & ~3; // 10 bit res, 187.5 ms
+    else if (cfg == 0x40) raw = raw & ~1; // 11 bit res, 375 ms
+    //// default is 12 bit resolution, 750 ms conversion time
+  }
+  float celsius = (float)raw / 16.0;
+  //Serial.print("  Temperature = ");
+  //Serial.print(celsius);
+  //Serial.println(" Celsius, ");
+
+  // add up the pre-defined number of _samples for Sample Averaging
+  for (cntSamples = 0; cntSamples < _samples; cntSamples++)
+  {
+    //sumSamples += analogRead(_pin);
+    // minimum delay on analog pins is 100ms
+    delay(110);
+  }
+  //measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
+  //measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
+  //measurement *= _r12;
+  //return measurement;
+  return celsius;
 }
 
 void loop()
@@ -131,7 +205,7 @@ void loop()
           Serial.print(Value);
           Serial.print(", ");
           // DS18B20 temperature
-          Value = ds1w.readTemperature();
+          Value = readDSTemperature();
           Serial.print(Value);
           Serial.print(", ");
         }
@@ -179,7 +253,7 @@ void loop()
       case 'W':
       case 'w':
         // DS18B20 temperature
-        Value = ds1w.readTemperature();
+        Value = readDSTemperature();
         Serial.print(Value);
         break;
       default:
