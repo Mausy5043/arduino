@@ -7,6 +7,7 @@ C56=numpy.loadtxt('/tmp/testser.txt',delimiter=',',usecols=(5,6))
 X = C12[:,1]
 Y = C12[:,0]
 
+print "TMP36 vs. DS18B20"
 (a,b)= numpy.polyfit(X,Y,1)
 print a, b
 
@@ -17,7 +18,8 @@ print a*X[0]+b, Y[0]
 
 X = C23[:,1]
 Y = C23[:,0]
-
+print "---"
+print "DS18B20 vs. DHT22"
 (a,b)= numpy.polyfit(X,Y,1)
 print a, b
 
@@ -28,7 +30,8 @@ print a*X[0]+b, Y[0]
 
 X = C56[:,1]
 Y = C56[:,0]
-
+print "---"
+print "DewPoint vs. DewPoint2"
 (a,b)= numpy.polyfit(X,Y,1)
 print a, b
 
