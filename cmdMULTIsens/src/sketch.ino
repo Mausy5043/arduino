@@ -126,8 +126,8 @@ float readDSTemperature(void)
   //Serial.print(celsius);
   //Serial.println(" Celsius, ");
 
-  // add up the pre-defined number of _samples for Sample Averaging
-  for (cntSamples = 0; cntSamples < _samples; cntSamples++)
+  // add up the pre-defined number of DS18Samples for Sample Averaging
+  for (cntSamples = 0; cntSamples < DS18Samples; cntSamples++)
   {
     //sumSamples += analogRead(_pin);
     // minimum delay on analog pins is 100ms
