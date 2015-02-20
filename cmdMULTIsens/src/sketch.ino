@@ -159,7 +159,7 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (T,S,H,D,E,I)");
+        Serial.println("A | a : All sensor and calculated values (T,W,S,H,D,E,I,V)");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
