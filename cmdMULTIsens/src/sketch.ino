@@ -16,7 +16,7 @@
 #define Dht22Pin 4
 #define DhtType DHT22
 // number of samples to be averaged (not used!)
-// #define Dht22Samples 16
+// #define Dht22Samples 1
 
 // measurement pin of TMP36 is connected to analog pin 1
 #define VbatPin A0
@@ -29,7 +29,7 @@
 #define Tmp36Samples 16
 
 #define DS18Pin 10
-#define DS18Samples 3
+#define DS18Samples 16
 
 // Initialise DHT sensor: measurement pin, sensortype
 DHT dht(Dht22Pin, DhtType);
