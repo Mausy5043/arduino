@@ -4,6 +4,8 @@
 #include "WProgram.h"
 #endif
 
+// http://www.avdweb.nl/arduino/hardware-interfacing/temperature-measurement.html
+
 #include "ChipTemp.h"
 
 ChipTemp::ChipTemp()
