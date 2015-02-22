@@ -30,7 +30,7 @@ float TMP36::readTemperature(void)
 
 
   analogReference(EXTERNAL);
-  delay(200)
+  delay(200);
   // add up the pre-defined number of _samples for Sample Averaging
   for (cntSamples = 0; cntSamples < _samples; cntSamples++)
   {
