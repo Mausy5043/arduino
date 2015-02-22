@@ -49,7 +49,7 @@ void loop()
   // *** Add up the pre-defined number of samples for Sample Averaging
   for (cntSamples = 0; cntSamples < numSamples; cntSamples++) {
     sumSamples += analogRead(measurePin);
-    // minimum delay on anaolg pins is 100ms
+    // minimum delay on analog pins is 100ms
     delay(200);
   }
 
