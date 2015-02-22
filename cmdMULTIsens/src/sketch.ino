@@ -18,7 +18,7 @@
 // number of samples to be averaged (not used!)
 // #define Dht22Samples 1
 
-// measurement pin of TMP36 is connected to analog pin 1
+// measurement pin of the voltage measurement circuit is connected to analog pin 0
 #define VbatPin A0
 // number of samples to be averaged
 #define VbatSamples 16
@@ -28,18 +28,20 @@
 // number of samples to be averaged
 #define Tmp36Samples 1
 
+// measurement pin of DS18B20 is connected to pin 10
 #define DS18Pin 10
+// number of samples to be averaged
 #define DS18Samples 1
 
 // Initialise DHT sensor: measurement pin, sensortype
 DHT dht(Dht22Pin, DhtType);
 
 // Initialise VBAT library: measurement pin, number of samples to average,
-//        5V reference [V], R1 [Ohm], R2 [Ohm]
+//        +V reference [V], R1 [Ohm], R2 [Ohm]
 VBAT vbat(VbatPin, VbatSamples, 5.14, 99300.0,  9870.0);
 
-// Initialise TMP36 library: measurement pin, number of samples to average, 5V reference
-TMP36 tmp36(Tmp36Pin, Tmp36Samples, 3.3);
+// Initialise TMP36 library: measurement pin, number of samples to average, +V reference
+TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
 
 // Initialise DS18B20 library: measurement pin, number of samples to average
 //DS18B20 ds1w(DS18Pin, DS18Samples);

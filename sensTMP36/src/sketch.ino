@@ -10,7 +10,7 @@
 #define activityLED 3
 
 // *** declare constants
-const float ref5V = 3.3;   // reference: 5.0V on measurePin == 1023.0
+const float ref5V = 5.0;   // reference: 5.0V on measurePin == 1023.0
 
 
 // (numSamples ^ 0.5) is the S/N ratio that can be achieved.
@@ -36,7 +36,7 @@ void setup()
   Serial.begin(9600);             // Initialise serial port
   delay(2000);
   Serial.println("sensTMP36");
-  analogReference(EXTERNAL);
+  //analogReference(EXTERNAL);
   digitalWrite(activityLED, LOW);
 }
 
