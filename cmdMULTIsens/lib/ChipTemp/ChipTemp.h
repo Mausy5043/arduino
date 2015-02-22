@@ -5,7 +5,7 @@
 // Based on "InternalTemp"
 // Requires 166 ... 204 bytes program memory
 // Resolution 0.1 degree
-16.5 = 17.68
+
 // Calibration values, set in decimals
 static const float offset = 319.561; // 335.2; // change this by calibration result
 static const float gain = 1.06154;
