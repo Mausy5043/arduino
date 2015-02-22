@@ -38,7 +38,7 @@ DHT dht(Dht22Pin, DhtType);
 
 // Initialise VBAT library: measurement pin, number of samples to average,
 //        +V reference [V], R1 [Ohm], R2 [Ohm]
-VBAT vbat(VbatPin, VbatSamples, 5.14, 99300.0,  9870.0);
+VBAT vbat(VbatPin, VbatSamples, 5.0, 99300.0,  9870.0);
 
 // Initialise TMP36 library: measurement pin, number of samples to average, +V reference
 TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
