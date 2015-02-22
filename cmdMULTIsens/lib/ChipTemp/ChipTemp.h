@@ -18,6 +18,7 @@
   Celsius = 20.54
 
   offset' = 20.54 * 1.06154 /10 + 335.2 -1.06154*16.5  =  339.4886216
+*/
 
 static const float offset = 339.489; // 335.2; // change this by calibration result
 static const float gain = 1.06154;
