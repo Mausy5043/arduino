@@ -10,7 +10,7 @@
 #define activityLED 3
 
 // *** declare constants
-const float ref5V = 5.06;   // reference: 5.0V on measurePin == 1023.0
+const float ref5V = 3.3;   // reference: 5.0V on measurePin == 1023.0
 
 
 // (numSamples ^ 0.5) is the S/N ratio that can be achieved.
@@ -19,7 +19,7 @@ const float ref5V = 5.06;   // reference: 5.0V on measurePin == 1023.0
 // Beware, numSamples * 1024 should not exceed the positive maximum for the
 // `int` data-type!
 // Therefore the maximum numSamples = (32767 / 1023 = ) 32
-const int numSamples = 10;  // number of measurements used for one result
+const int numSamples = 1;  // number of measurements used for one result
 
 // *** declare variables
 int sumSamples = 0;         // sum of samples
@@ -36,6 +36,7 @@ void setup()
   Serial.begin(9600);             // Initialise serial port
   delay(2000);
   Serial.println("sensTMP36");
+  analogReference(EXTERNAL);
   digitalWrite(activityLED, LOW);
 }
 
