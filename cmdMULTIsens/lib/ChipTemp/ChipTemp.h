@@ -14,14 +14,14 @@ static const int samples = 1000; // must be >= 1000, else the gain setting has n
 
 // Compile time calculations
 static const long offsetFactor = offset * samples;
-static const int divideFactor = gain * samples/10; // deci = 1/10
+static const float divideFactor = gain * samples/10; // deci = 1/10
 
 class ChipTemp
 {
 public:
   ChipTemp();
-  int deciCelsius();
-  int celsius();
+  float deciCelsius();
+  float celsius();
 
 private:
   inline void initialize();
