@@ -56,9 +56,6 @@ TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
 OneWire ds1w(DS18Pin);
 
 ChipTemp chipTemp(ATSamples);
-ChipTemp T0(1000);
-
-const float T0 = T0.readTemperature(); // Before anything else determine the chip temperature while it's still close to ambient. Kind of...
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
@@ -71,7 +68,6 @@ void setup()
   digitalWrite(ActivityLED, HIGH);  // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.print("... ");
-  Serial.print(T0);
   tmp36.begin();                    // Initialise TMP36 sensor
   vbat.begin();                     // Initialise VBAT sensor
   dht.begin();                      // Initialise DHT22 sensor
@@ -186,10 +182,6 @@ void loop()
         Serial.println("T | t : TMP36 temperature");
         Serial.println("V | v : VBAT voltage");
         Serial.println("W | w : DS18B20 (1-wire) temperature");
-        break;
-      case '0':
-        // ATMEGA T0 temperature
-        Serial.print(T0);
         break;
       case 'C':
       case 'c':
