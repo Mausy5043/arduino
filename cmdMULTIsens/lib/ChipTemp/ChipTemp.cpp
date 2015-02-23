@@ -36,5 +36,5 @@ float ChipTemp::readTemperature()
   averageTemp *= _invsamples;
   averageTemp -= CT_offset;
   averageTemp * CT_invgain;
-  return acerageTemp;
+  return averageTemp;
 }

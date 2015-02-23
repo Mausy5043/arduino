@@ -23,7 +23,7 @@
 static const float CT_offset = 339.489; // 335.2; // change this by calibration result
 static const float CT_gain = 1.06154;
 
-static const int CT_samples = 1000; // must be >= 1000, else the gain setting has no effect
+//static const int CT_samples = 1000; // must be >= 1000, else the gain setting has no effect
 
 // Compile time calculations
 //static const long offsetFactor = CT_offset * CT_samples;
@@ -38,6 +38,8 @@ public:
 private:
   inline void initialize();
   inline int readAdc();
+  int _samples;   // number of samples used for averaging
+  float _invsamples; // (1/_samples) for faster multiplications
 };
 
 #endif
