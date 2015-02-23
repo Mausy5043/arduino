@@ -8,8 +8,10 @@
 
 #include "ChipTemp.h"
 
-ChipTemp::ChipTemp()
+ChipTemp::ChipTemp(int samples)
 {
+  _samples = samples;
+  _invsamples = 1 / samples;
 }
 
 inline void ChipTemp::initialize()
@@ -25,9 +27,14 @@ inline int ChipTemp::readAdc()
 }
 
 float ChipTemp::readTemperature()
-{ long averageTemp=0;
+{ float averageTemp=0.0;
   initialize(); // must be done everytime
-  for (int i=0; i<samples; i++) averageTemp += readAdc();
-  averageTemp -= offsetFactor;
-  return (float)averageTemp / (float)divideFactor * 0.1;
+  for (int i=0; i<_samples; i++)
+  {
+    averageTemp += readAdc();
+  }
+  averageTemp *= _invsamples;
+  averageTemp -= CT_offset;
+  averageTemp * CT_invgain;
+  return acerageTemp;
 }

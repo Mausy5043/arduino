@@ -30,12 +30,16 @@
 // measurement pin of TMP36 is connected to analog pin 1
 #define Tmp36Pin A1
 // number of samples to be averaged
-#define Tmp36Samples 1
+#define Tmp36Samples 3
 
 // measurement pin of DS18B20 is connected to pin 10
 #define DS18Pin 10
 // number of samples to be averaged
-#define DS18Samples 1
+#define DS18Samples 3
+
+// ATMEGA Chip is internal
+// number of samples to be averaged
+#define ATSamples 3
 
 // Initialise DHT sensor: measurement pin, sensortype
 DHT dht(Dht22Pin, DhtType);
@@ -51,7 +55,7 @@ TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
 //DS18B20 ds1w(DS18Pin, DS18Samples);
 OneWire ds1w(DS18Pin);
 
-ChipTemp chipTemp;
+ChipTemp chipTemp(ATSamples);
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
