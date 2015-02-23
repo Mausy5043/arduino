@@ -73,7 +73,6 @@ void setup()
   }
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println(" cmdMULTIsens ready !");   // Print banner
-
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
 
@@ -169,7 +168,7 @@ void loop()
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
         Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V)");
-        Serial.println("C | c : ATMEGA chip temperature")
+        Serial.println("C | c : ATMEGA chip temperature");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
