@@ -10,23 +10,20 @@
 
 /*
   Calibration date 20150222:
-  offset = 335.2
-  gain = 1.06154
-  offset’ = Celsius * gain / 10 + offset – gain * T
+  offset = 335.2 (original)
+  gain = 1.06154 (original)
+  offset’ = T(chip) * gain + offset – gain * T(room)
 
-  RT=16.5
-  Celsius = 20.54
+  T(room) = 16.5
+  T(chip) = 20.54
 
-  offset' = 20.54 * 1.06154 /10 + 335.2 -1.06154*16.5  =  339.4886216
+  offset' = 20.54 * 1.06154 + 335.2 -1.06154 * 16.5  =  339.4886216
 */
 
-static const float CT_offset = 339.489; // 335.2; // change this by calibration result
+static const float CT_offset = 339.4886216; // 335.2; // change this by calibration result
 static const float CT_gain = 1.06154;
 
-//static const int CT_samples = 1000; // must be >= 1000, else the gain setting has no effect
-
 // Compile time calculations
-//static const long offsetFactor = CT_offset * CT_samples;
 static const float CT_invgain = 1 / CT_gain;
 
 class ChipTemp
