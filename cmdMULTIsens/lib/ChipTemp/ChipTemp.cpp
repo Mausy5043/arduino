@@ -11,7 +11,7 @@
 ChipTemp::ChipTemp(int samples)
 {
   _samples = samples;
-  _invsamples = 1 / samples;
+  _invsamples = 1.0/(float)_samples;
 }
 
 inline void ChipTemp::initialize()
