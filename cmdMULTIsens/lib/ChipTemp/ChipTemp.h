@@ -38,7 +38,7 @@ public:
 private:
   inline void initialize();
   inline int readAdc();
-  int _samples;   // number of samples used for averaging
+  int _samples;      // number of samples used for averaging
   float _invsamples; // (1/_samples) for faster multiplications
 };
 
