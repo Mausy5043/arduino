@@ -33,8 +33,8 @@ class ChipTemp
 {
 public:
   ChipTemp();
-  float deciCelsius();
-  float celsius();
+  float readTemperature();
+  //float celsius();
 
 private:
   inline void initialize();

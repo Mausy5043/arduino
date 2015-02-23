@@ -72,7 +72,6 @@ void setup()
     Serial.println("No sensor.");
   }
   delay(2000);                      // Wait 2s for all sensors to come online
-  Serial.print(chipTemp.celsius());
   Serial.println(" cmdMULTIsens ready !");   // Print banner
 
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
@@ -169,7 +168,8 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (T,W,S,H,D,E,I,V)");
+        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V)");
+        Serial.println("C | c : ATMEGA chip temperature")
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
@@ -179,6 +179,12 @@ void loop()
         Serial.println("T | t : TMP36 temperature");
         Serial.println("V | v : VBAT voltage");
         Serial.println("W | w : DS18B20 (1-wire) temperature");
+        break;
+      case 'C':
+      case 'c':
+        // ATMEGA temperature
+        Value = chipTemp.readTemperature();
+        Serial.print(Value);
         break;
       case 'D':
       case 'd':
@@ -211,7 +217,7 @@ void loop()
         if ((ActionRequest == 'A') || (ActionRequest == 'a'))
         {
           // TMP36 temperature
-          Value = tmp36.readTemperature();
+          Value = chipTemp.readTemperature();
           Serial.print(Value);
           Serial.print(", ");
           // DS18B20 temperature

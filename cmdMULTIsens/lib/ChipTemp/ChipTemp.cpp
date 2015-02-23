@@ -24,14 +24,10 @@ inline int ChipTemp::readAdc()
   return (ADCL | (ADCH << 8)); // combine bytes
 }
 
-float ChipTemp::deciCelsius()
+float ChipTemp::readTemperature()
 { long averageTemp=0;
   initialize(); // must be done everytime
   for (int i=0; i<samples; i++) averageTemp += readAdc();
   averageTemp -= offsetFactor;
-  return (float)averageTemp / (float)divideFactor; // return deci degree Celsius
-}
-
-float ChipTemp::celsius()
-{ return deciCelsius()*0.1;
+  return (float)averageTemp / (float)divideFactor * 0.1;
 }
