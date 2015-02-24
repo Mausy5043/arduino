@@ -1,4 +1,4 @@
-# cmdVsens
+# sensV
 
 A voltage measuring project.
 - The .fzz file is a Fritzing project file.
@@ -6,5 +6,4 @@ A voltage measuring project.
 - The src/ folder holds `sketch.ino`; an Arduino sketch file for use with
   the project.
 
-  Once running, the Arduino only produces output when 'V' or 'v' is received
-  on the serialport.
+Once running the Arduino automagically produces output.

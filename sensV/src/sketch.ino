@@ -1,8 +1,7 @@
 /*
-  cmdVsens sketch
-  Waits for a request on the serialport.
-  Then measures the AverageValue on VoltMeasurePIN and prints the result to
-  the serialport.
+  sensV sketch
+  Measures the voltage on the analog pin and prints the result to
+  the serialport
 
   *******
   Do not connect more than 5 volts directly to an Arduino pin!!
@@ -29,11 +28,12 @@ const float R2 = 9870.0;   // Measured resistor value used for R2
 const int NUM_SAMPLES = 16;  // number of measurements used for one result
 
 // *** declare calculated constants
-const float RATIO_RESISTORS = ((R1 + R2)/R2) * 0.00001;
+const float RATIO_RESISTORS = ((R1 + R2)/R2) * 0.00001; // multiply by 1e-5 to get V
 
 // *** declare variables
 float voltage = 0.0;
-byte ActionRequest;
+unsigned long startTime = 0;
+unsigned long elapsedTime = 0;
 
 void setup()
 {
@@ -41,17 +41,11 @@ void setup()
   digitalWrite(activityLED, HIGH);
   Serial.begin(9600);             // Initialise serial port
   delay(2000);
-  Serial.println("cmdVsens");
+  Serial.println("sensV");
   digitalWrite(activityLED, LOW);
 }
 
-int serialRX()
-{
-  // read a a byte from the serialbuffer
-  return Serial.read();
-}
-
-float sensV() // measure the AverageValue
+float sensV()
 {
   float AverageValue = 0.0;     // result
   int SumSamples = 0;           // sum of samplevalues
@@ -66,33 +60,24 @@ float sensV() // measure the AverageValue
 
   // *** Determine the source AverageValue:
   AverageValue = (float)SumSamples / (float)CountSamples; // Calculate avg raw value.
-  AverageValue = map(AverageValue * 10, 0, 1023, 0, ref5V *10000); // map raw value to 0...5V
-  AverageValue *= RATIO_RESISTORS; // account for voltage-reduction
+  AverageValue = map(AverageValue * 10, 0, 1023, 0, ref5V * 10000); //map raw value to 0...5V
+  AverageValue *= RATIO_RESISTORS; // Account for voltage-reduction
   return AverageValue;
 }
 
 void loop()
+
 {
-  if (Serial.available() > 0)
-  {
-    digitalWrite(activityLED, HIGH);  // signal activity detected
+  startTime = millis();
+  digitalWrite(activityLED, HIGH);
 
-    ActionRequest = serialRX();                 // See what the input is
+  voltage = sensV();
 
-    Serial.print((char)ActionRequest);          // Signal start of telegram
-    Serial.print(" ");                // Delimiter
-    switch (ActionRequest)
-    {
-      case 'V':
-      case 'v':
-        voltage = sensV();
-        Serial.print(voltage);        // AverageValue
-        break;
-      default:
-        Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
-    }
-    Serial.println(" !");             // Signal end of telegram
+  Serial.print(voltage);
+  Serial.println(" V");
+  digitalWrite(activityLED, LOW);
+  elapsedTime = millis() - startTime;
 
-    digitalWrite(activityLED, LOW);   // end of activity
-  }
+  // *** Wait until 5sec have passed.
+  delay(abs(5000 - elapsedTime));
 }
