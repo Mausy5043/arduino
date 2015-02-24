@@ -24,14 +24,14 @@ void TMP36::begin()
 
 float TMP36::readTemperature(void)
 {
-  int cntSamples = 0;
-  int sumSamples = 0;
-  float measurement = 0.0;
+  // int cntSamples = 0;
+  int sumSamples;
+  //float measurement = 0.0;
 
   //analogReference(EXTERNAL);
   delay(200);
   // add up the pre-defined number of _samples for Sample Averaging
-  for (cntSamples = 0; cntSamples < _samples; cntSamples++)
+  for (int cntSamples = 0; cntSamples < _samples; cntSamples++)
   {
     sumSamples += analogRead(_pin);
     // minimum delay on analog pins is 100ms
@@ -39,9 +39,9 @@ float TMP36::readTemperature(void)
     delay(200);
   }
   //measurement = (float)sumSamples / (float)cntSamples; // Calculate avg raw value.
-  measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
+  float measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
   measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
 
   //analogReference(DEFAULT);
-  return 100 * measurement - 50.0;
+  return 100.0 * measurement - 50.0;
 }

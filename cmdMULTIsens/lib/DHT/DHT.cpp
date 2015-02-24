@@ -274,7 +274,7 @@ boolean DHT::read(void) {
   pinMode(_pin, INPUT);
 
   // read in timings
-  for ( i=0; i< MAXTIMINGS; i++) {
+  for ( i=0; i < MAXTIMINGS; i++) {
     counter = 0;
     while (digitalRead(_pin) == laststate) {
       counter++;

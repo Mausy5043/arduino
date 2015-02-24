@@ -11,7 +11,6 @@
 #include <TMP36.h>
 #include <DHT.h>
 #include <OneWire.h>
-//#include <DS18B20.h>
 
 // An LED is connected to pin 3
 #define ActivityLED 3
@@ -20,7 +19,7 @@
 #define Dht22Pin 4
 #define DhtType DHT22
 // number of samples to be averaged (not used!)
-// #define Dht22Samples 1
+#define Dht22Samples 3
 
 // measurement pin of the voltage measurement circuit is connected to analog pin 0
 #define VbatPin A0
@@ -87,10 +86,10 @@ int serialRX()
 
 float readDSTemperature(void)
 {
-  int cntSamples = 0;
-  int sumSamples = 0;
-  float measurement = 0.0;
-  int i = 0;
+  //int cntSamples = 0;
+  // int sumSamples = 0;
+  //float measurement = 0.0;
+  //int i = 0;
   int type_s = 0;
 
   ds1w.reset();
@@ -105,7 +104,7 @@ float readDSTemperature(void)
   //Serial.print("  Data = ");
   //Serial.print(present, HEX);
   //Serial.print(" ");
-  for ( i = 0; i < 9; i++) {           // we need 9 bytes
+  for ( int i = 0; i < 9; i++) {           // we need 9 bytes
     ds1w_data[i] = ds1w.read();
     //Serial.print(ds1w_data[i], HEX);
     //Serial.print(" ");
@@ -138,17 +137,19 @@ float readDSTemperature(void)
   //Serial.print(celsius);
   //Serial.println(" Celsius, ");
 
+/*
   // add up the pre-defined number of DS18Samples for Sample Averaging
   for (cntSamples = 0; cntSamples < DS18Samples; cntSamples++)
   {
     //sumSamples += analogRead(_pin);
     // minimum delay on analog pins is 100ms
-    delay(110);
+    // delay(110);
   }
   //measurement = (float)sumSamples * _invsamples; // Calculate avg raw value.
   //measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
   //measurement *= _r12;
   //return measurement;
+*/
   return celsius;
 }
 
@@ -171,7 +172,7 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V)");
+        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V,T)");
         Serial.println("C | c : ATMEGA chip temperature");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
@@ -219,7 +220,7 @@ void loop()
       case 'r':
         if ((ActionRequest == 'A') || (ActionRequest == 'a'))
         {
-          // TMP36 temperature
+          // ATMEGA temperature
           Value = chipTemp.readTemperature();
           Serial.print(Value);
           Serial.print(", ");
@@ -249,6 +250,10 @@ void loop()
           Serial.print(", ");
           Value = vbat.readVoltage();
           Serial.print(Value);
+            // TMP36 temperature
+            Value = tmp36.readTemperature();
+            Serial.print(", ");
+            Serial.print(Value);
         }
         break;
       case 'S':
