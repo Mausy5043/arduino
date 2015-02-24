@@ -29,7 +29,7 @@ void VBAT::begin(void)
 float VBAT::readVoltage(void)
 {
   //int cntSamples = 0;
-  int sumSamples;
+  int sumSamples = 0;
   //float measurement = 0.0;
 
   // add up the pre-defined number of _samples for Sample Averaging

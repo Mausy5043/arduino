@@ -25,7 +25,7 @@ void TMP36::begin()
 float TMP36::readTemperature(void)
 {
   // int cntSamples = 0;
-  int sumSamples;
+  int sumSamples = 0;
   //float measurement = 0.0;
 
   //analogReference(EXTERNAL);
