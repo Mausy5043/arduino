@@ -9,8 +9,8 @@ if [ "$1" = "dev" ]; then
   git fetch origin && git reset --hard origin/dev && git clean -f -d
 fi
 if [ "$1" = "asa" ]; then
-  echo "Updating to dev"
-  git fetch origin && git reset --hard origin/dev && git clean -f -d
+  echo "Updating to asa"
+  git fetch origin && git reset --hard origin/asa && git clean -f -d
 fi
 
 # Set permissions
