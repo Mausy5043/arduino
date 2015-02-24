@@ -8,6 +8,10 @@ if [ "$1" = "dev" ]; then
   echo "Updating to dev"
   git fetch origin && git reset --hard origin/dev && git clean -f -d
 fi
+if [ "$1" = "asa" ]; then
+  echo "Updating to dev"
+  git fetch origin && git reset --hard origin/dev && git clean -f -d
+fi
 
 # Set permissions
 sudo chmod -R 744 *
