@@ -30,7 +30,7 @@ inline int ChipTemp::readAdc()
 
 float ChipTemp::readTemperature()
 {
-  float averageTemp;
+  float averageTemp = 0.0;
   initialize();                     // must be done everytime
   for (int i=0; i < _samples; i++)
   {
