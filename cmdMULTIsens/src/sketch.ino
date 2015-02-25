@@ -20,26 +20,26 @@
 #define Dht22Pin 4
 #define DhtType DHT22
 // number of samples to be averaged (not used!)
-#define Dht22Samples 3
+#define Dht22Samples 5
 
 // measurement pin of the voltage measurement circuit is connected to analog pin 0
 #define VbatPin A0
 // number of samples to be averaged
-#define VbatSamples 16
+#define VbatSamples 5
 
 // measurement pin of TMP36 is connected to analog pin 1
 #define Tmp36Pin A1
 // number of samples to be averaged
-#define Tmp36Samples 3
+#define Tmp36Samples 5
 
 // measurement pin of DS18B20 is connected to pin 10
 #define DS18Pin 10
 // number of samples to be averaged
-#define DS18Samples 3
+#define DS18Samples 5
 
 // ATMEGA Chip is internal
 // number of samples to be averaged
-#define ATSamples 3
+#define ATSamples 5
 
 // Initialise DHT sensor: measurement pin, sensortype
 DHT dht(Dht22Pin, DhtType);
