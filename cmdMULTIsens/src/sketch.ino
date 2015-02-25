@@ -14,6 +14,7 @@
 
 // An LED is connected to pin 3
 #define ActivityLED 3
+#define BootLED 13
 
 // measurement pin of DHT22 is connected to digital pin 4
 #define Dht22Pin 4
@@ -64,7 +65,8 @@ byte ds1w_data[12];
 void setup()
 {
   pinMode(ActivityLED, OUTPUT);     // An LED to signal activity
-  digitalWrite(ActivityLED, HIGH);  // Turn the LED on during setup()
+  pinMode(BootLED, OUTPUT);         // An LED to signal reboot
+  digitalWrite(BootLED, HIGH);      // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.print("... ");
   tmp36.begin();                    // Initialise TMP36 sensor
@@ -76,7 +78,7 @@ void setup()
   }
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println(" cmdMULTIsens ready !");   // Print banner
-  digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
+  digitalWrite(BootLED, LOW);       // Turn off the LED at end of setup()
 }
 
 int serialRX()
