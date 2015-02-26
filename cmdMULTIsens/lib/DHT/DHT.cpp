@@ -82,8 +82,7 @@ float DHT::readHumidity(void) {
   return NAN;
 }
 
-float DHT::computeHeatIndex(float tempCelsius, float percentHumidity)
-{
+float DHT::computeHeatIndex(float tempCelsius, float percentHumidity) {
   float t = convertCtoF(tempCelsius);
   float rh = percentHumidity;
   float hi = -100.0;
