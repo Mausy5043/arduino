@@ -17,10 +17,13 @@
   T(room) = 16.5
   T(chip) = 20.54
 
-  offset' = 20.54 * 1.06154 + 335.2 -1.06154 * 16.5  =  339.4886216
+  offset' = 20.54 * 1.06154 + 335.2 - 1.06154 * 16.5  =  339.4886216
+
+  01MAR2015:
+  offset' = 16.29 * 1.06154 + 339.4886216 - 1.06154 * 19.25  =  336.3464632
 */
 
-static const float CT_offset = 339.4886216; // 335.2; // change this by calibration result
+static const float CT_offset = 336.3464632; // 339.4886216; // 335.2; // change this by calibration result
 static const float CT_gain = 1.06154;
 
 // Compile time calculations
