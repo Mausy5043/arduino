@@ -43,5 +43,9 @@ float TMP36::readTemperature(void)
   measurement = map(measurement * 10, 0, 10230, 0, _ref5v * 10000) * 0.0001;
 
   //analogReference(DEFAULT);
-  return 100.0 * measurement - 50.0;
+  measurement = 100.0 * measurement - 50.0;
+  // adjust to calibration line
+  measurement *= T36_gain;
+  measurement += T36_offset;
+  return measurement;
 }
