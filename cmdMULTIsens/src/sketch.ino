@@ -195,7 +195,7 @@ void loop()
       case 'D':
       case 'd':
         // DHT22 calculated dewpoint
-        Value = dht.computeDewPoint(dht.readTemperature(), dht.readHumidity());
+        Value = dht.computeDewPoint2(readDSTemperature(), dht.readHumidity());
         Serial.print(Value);
         break;
       case 'E':
