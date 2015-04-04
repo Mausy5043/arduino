@@ -49,6 +49,8 @@ float DHT::readTemperature(void) {
       }
       break;
     }
+    f *= DHT_gain;
+    f += DHT_offset;
     return f;
   }
   return NAN;

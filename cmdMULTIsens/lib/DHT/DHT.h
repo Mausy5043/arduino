@@ -26,6 +26,9 @@ Modifications by M. Hendrix (Mausy5043) FEB2015:
 #define DHT21 21
 #define AM2301 21
 
+static const float DHT_gain = 1.0115758;
+static const float DHT_offset = -0.20292879;
+
 class DHT {
  private:
   uint8_t data[6];
