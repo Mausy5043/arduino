@@ -10,7 +10,7 @@
 #include "Arduino.h"
 
 static const float T36_gain = 1.0158467;
-static const float T36_offset = 2.8254769;
+static const float T36_offset = 2.8254769-0.075787;
 
 class TMP36
 {
