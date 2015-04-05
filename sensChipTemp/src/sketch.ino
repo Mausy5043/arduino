@@ -10,7 +10,28 @@
 //
 // April 2012, Arduino 1.0
 
-static const float CT_gain = 0.94202762;
+/*
+  (1) - Load this sketch into the ATMEGA
+  (2) - Power down the ATMEGA
+  (3) - Wait for 30 minutes for the chip to reach ambient temperature
+  (4) - Power up and *IMMEDIATELY* read the serial-port for temperature values.
+  (5) - Make a note of the first few reported temperatures and the actual
+        ambient temperature.
+
+  Repeat this for different temperatures, then determine the values for gain
+  and offset.
+    With two points given:
+    gain(new)   = (ambient[1] - ambient[2]) / (chip[1] - chip[2])
+    offset(new) = ambient[1] - gain * chip[1]  OR ambient[2] - gain * chip[2]
+
+  If you have more data use a least-squares fit of ambient (y) vs. chip (x) to
+  find the new gain and offset.
+
+  CT_gain   = gain(old)   * gain(new)
+  CT_offset = offset(old) * gain(new) + offset(new)
+*/
+
+static const float CT_gain   =    0.94202762;
 static const float CT_offset = -316.847658;
 
 void setup()
