@@ -29,6 +29,9 @@
 
   CT_gain   = gain(old)   * gain(new)
   CT_offset = offset(old) * gain(new) + offset(new)
+
+  It is preferable, from a simplicity point-of-view, to always measure the raw
+  values (CT_gain = 1 & CT_offset=0) and calculate the gain and offset from those.
 */
 
 static const float CT_gain   = 1;
