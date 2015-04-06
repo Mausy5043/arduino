@@ -16,7 +16,7 @@
 
 /* Update by K. Townsend (Adafruit Industries) for lighter typedefs, and
  * extended sensor support to include color, voltage and current */
- 
+
 #ifndef _ADAFRUIT_SENSOR_H
 #define _ADAFRUIT_SENSOR_H
 
@@ -37,7 +37,7 @@
 #define SENSORS_GRAVITY_STANDARD          (SENSORS_GRAVITY_EARTH)
 #define SENSORS_MAGFIELD_EARTH_MAX        (60.0F)                 /**< Maximum magnetic field on Earth's surface */
 #define SENSORS_MAGFIELD_EARTH_MIN        (30.0F)                 /**< Minimum magnetic field on Earth's surface */
-#define SENSORS_PRESSURE_SEALEVELHPA      (1013.25F)              /**< Average sea level pressure is 1013.25 hPa */
+#define SENSORS_PRESSURE_SEALEVELHPA      (1030.1F)              /**< Average sea level pressure is 1013.25 hPa */
 #define SENSORS_DPS_TO_RADS               (0.017453293F)          /**< Degrees/s to rad/s multiplier */
 #define SENSORS_GAUSS_TO_MICROTESLA       (100)                   /**< Gauss to micro-Tesla multiplier */
 
@@ -72,9 +72,9 @@ typedef struct {
         };
         /* Orientation sensors */
         struct {
-            float roll;    /**< Rotation around the longitudinal axis (the plane body, 'X axis'). Roll is positive and increasing when moving downward. -90°<=roll<=90° */
-            float pitch;   /**< Rotation around the lateral axis (the wing span, 'Y axis'). Pitch is positive and increasing when moving upwards. -180°<=pitch<=180°) */
-            float heading; /**< Angle between the longitudinal axis (the plane body) and magnetic north, measured clockwise when viewing from the top of the device. 0-359° */
+            float roll;    /**< Rotation around the longitudinal axis (the plane body, 'X axis'). Roll is positive and increasing when moving downward. -90ï¿½<=roll<=90ï¿½ */
+            float pitch;   /**< Rotation around the lateral axis (the wing span, 'Y axis'). Pitch is positive and increasing when moving upwards. -180ï¿½<=pitch<=180ï¿½) */
+            float heading; /**< Angle between the longitudinal axis (the plane body) and magnetic north, measured clockwise when viewing from the top of the device. 0-359ï¿½ */
         };
     };
     int8_t status;
@@ -145,7 +145,7 @@ class Adafruit_Sensor {
   virtual void enableAutoRange(bool enabled) {};
   virtual bool getEvent(sensors_event_t*);
   virtual void getSensor(sensor_t*);
-  
+
  private:
   bool _autoRange;
 };
