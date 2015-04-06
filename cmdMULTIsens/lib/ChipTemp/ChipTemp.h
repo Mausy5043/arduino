@@ -5,8 +5,8 @@
 // Based on "InternalTemp"
 // Resolution 0.1 degree
 
-static const float CT_gain = 0.94202762;
-static const float CT_offset = -316.847658;
+static const float CT_gain = 0.8748936170;
+static const float CT_offset = -292.5870;
 
 class ChipTemp
 {
