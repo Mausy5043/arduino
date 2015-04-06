@@ -9,7 +9,7 @@
 #  git fetch origin && git reset --hard origin/dev && git clean -f -d
 #fi
 
-echo "Updating to"$1
+echo "Updating to "$1
 git fetch origin && git reset --hard origin/$1 && git clean -f -d
 
 # Set permissions
