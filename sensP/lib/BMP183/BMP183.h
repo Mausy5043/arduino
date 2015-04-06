@@ -1,21 +1,21 @@
 /*************************************************** 
   This is a library for the Adafruit BMP183 Barometric Pressure + Temp sensor
 
-  Designed specifically to work with the Adafruit BMP183 Breakout 
+  Designed specifically to work with the Adafruit BMP183 Breakout
   ----> http://www.adafruit.com/products/1900
 
-  These sensors use SPI to communicate, 4 pins are required to  
+  These sensors use SPI to communicate, 4 pins are required to
   interface
-  Adafruit invests time and resources providing this open source code, 
-  please support Adafruit and open-source hardware by purchasing 
+  Adafruit invests time and resources providing this open source code,
+  please support Adafruit and open-source hardware by purchasing
   products from Adafruit!
 
-  Written by Limor Fried/Ladyada for Adafruit Industries.  
+  Written by Limor Fried/Ladyada for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
 
-#ifndef ADAFRUIT_BMP183_H
-#define ADAFRUIT_BMP183_H
+#ifndef BMP183_H
+#define BMP183_H
 
 #if (ARDUINO >= 100)
  #include "Arduino.h"
@@ -66,10 +66,10 @@
     } bmp183_mode_t;
 /*=========================================================================*/
 
-class Adafruit_BMP183 {
+class BMP183 {
  public:
-  Adafruit_BMP183(int8_t SPICS);
-  Adafruit_BMP183(int8_t SPICLK, int8_t SPIMISO, int8_t SPIMOSI, int8_t SPICS);
+  BMP183(int8_t SPICS);
+  BMP183(int8_t SPICLK, int8_t SPIMISO, int8_t SPIMOSI, int8_t SPICS);
 
   boolean begin(bmp183_mode_t mode = BMP183_MODE_ULTRAHIGHRES);  // by default go highres
   float getTemperature(void);
@@ -77,7 +77,7 @@ class Adafruit_BMP183 {
   float getAltitude(float sealevelPressure = 101325); // std atmosphere
   uint16_t readRawTemperature(void);
   uint32_t readRawPressure(void);
-  
+
  private:
   uint8_t SPIxfer(uint8_t x);
   uint8_t read8(uint8_t addr);
@@ -94,4 +94,4 @@ class Adafruit_BMP183 {
 };
 
 
-#endif //  ADAFRUIT_BMP183_H
+#endif //  BMP183_H
