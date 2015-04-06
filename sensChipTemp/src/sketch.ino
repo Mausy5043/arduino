@@ -32,6 +32,11 @@
 
   It is preferable, from a simplicity point-of-view, to always measure the raw
   values (CT_gain = 1 & CT_offset=0) and calculate the gain and offset from those.
+
+  Tip: consider using these (relatively) stable temperature sources:
+  * Refrigerator freezer (approx. -15degC)
+  * Refrigerator cooler  (approx. +5degC)
+  * Room                 (approx. +20degC)
 */
 
 static const float CT_gain   = 1;
