@@ -31,8 +31,8 @@
   CT_offset = offset(old) * gain(new) + offset(new)
 */
 
-static const float CT_gain   =    0.94202762;
-static const float CT_offset = -316.847658;
+static const float CT_gain   = 1;
+static const float CT_offset = 0;
 
 void setup()
 {
