@@ -32,8 +32,8 @@
 // number of samples to be averaged
 #define Tmp36Samples 9
 
-// measurement pin of DS18B20 is connected to pin 10
-#define DS18Pin 10
+// measurement pin of DS18B20 is connected to pin 9
+#define DS18Pin 9
 // number of samples to be averaged
 #define DS18Samples 9
 
