@@ -275,7 +275,7 @@ void loop()
         }
         break;
       case 'P':
-      case 'P':
+      case 'p':
         // BMP183 barometric pressure
         Value = bmp.getPressure() * 0.01;   // millibars
         Serial.print(Value);
