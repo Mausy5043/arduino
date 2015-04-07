@@ -188,7 +188,7 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V,T)");
+        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V,T,P,Q)");
         Serial.println("C | c : ATMEGA chip temperature");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
@@ -270,6 +270,13 @@ void loop()
           Serial.print(Value);
           // TMP36 temperature
           Value = tmp36.readTemperature();
+          Serial.print(", ");
+          Serial.print(Value);
+          // BMP183 pressure, temperature
+          Value = bmp.getPressure() * 0.01;
+          Serial.print(", ");
+          Serial.print(Value);
+          Value = bmp.getTemperature();
           Serial.print(", ");
           Serial.print(Value);
         }
