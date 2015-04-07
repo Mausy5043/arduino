@@ -283,7 +283,7 @@ void loop()
       case 'Q':
       case 'q':
         // BMP183 temperature
-        Value = bmp183.getTemperature();
+        Value = bmp.getTemperature();
         Serial.print(Value);
         break;
       case 'S':
