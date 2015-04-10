@@ -11,10 +11,16 @@
 #include <TMP36.h>
 #include <DHT.h>
 #include <OneWire.h>
+#include <BMP183.h>
+
+// Pins used for BMP183 via SPI
+#define BMP183_CLK  13  // Clock
+#define BMP183_SDO  12  // SPI Digital Out aka MISO
+#define BMP183_SDI  11  // SPI Digital In aka MOSI
+#define BMP183_CS   10  // ChipSelect pin
 
 // An LED is connected to pin 3
 #define ActivityLED 3
-#define BootLED 13
 
 // measurement pin of DHT22 is connected to digital pin 4
 #define Dht22Pin 4
@@ -55,7 +61,13 @@ TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
 //DS18B20 ds1w(DS18Pin, DS18Samples);
 OneWire ds1w(DS18Pin);
 
+// Initialise internal temperature
 ChipTemp chipTemp(ATSamples);
+
+// initialize with hardware SPI
+//BMP183 bmp = BMP183(BMP183_CS);
+// or initialize with software SPI and use any 4 pins
+BMP183 bmp = BMP183(BMP183_CLK, BMP183_SDO, BMP183_SDI, BMP183_CS);
 
 float h;  // used for calculating dewpoint
 float t;  // used for calculating dewpoint
@@ -65,20 +77,22 @@ byte ds1w_data[12];
 void setup()
 {
   pinMode(ActivityLED, OUTPUT);     // An LED to signal activity
-  pinMode(BootLED, OUTPUT);         // An LED to signal reboot
-  digitalWrite(BootLED, HIGH);      // Turn the LED on during setup()
+  digitalWrite(ActivityLED, HIGH);      // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.print("... ");
+
   tmp36.begin();                    // Initialise TMP36 sensor
   vbat.begin();                     // Initialise VBAT sensor
   dht.begin();                      // Initialise DHT22 sensor
+  bmp.begin();                      // Initialise BMP183 sensor
   if ( !ds1w.search(ds1w_addr))
   {
     Serial.println("No sensor.");
   }
+
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println(" cmdMULTIsens ready !");   // Print banner
-  digitalWrite(BootLED, LOW);       // Turn off the LED at end of setup()
+  digitalWrite(ActivityLED, LOW);       // Turn off the LED at end of setup()
 }
 
 int serialRX()
@@ -174,12 +188,14 @@ void loop()
         Serial.println(" ");
         Serial.println("cmdMULTIsens help is underway!");
         Serial.println(" ");
-        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V,T)");
+        Serial.println("A | a : All sensor and calculated values (C,W,S,H,D,E,I,V,T,P,Q)");
         Serial.println("C | c : ATMEGA chip temperature");
         Serial.println("D | d : DHT22 calculated Dewpoint");
         Serial.println("E | e : DHT22 calculated Dewpoint2");
         Serial.println("H | h : DHT22 humidity");
         Serial.println("I | i : DHT22 calculated Heat index");
+        Serial.println("P | p : BMP183 barometric pressure");
+        Serial.println("Q | q : BMP183 temperature");
         Serial.println("R | r : DHT22 all sensor data (S,H,D,E,I)");
         Serial.println("S | s : DHT22 temperature");
         Serial.println("T | t : TMP36 temperature");
@@ -252,11 +268,30 @@ void loop()
           Serial.print(", ");
           Value = vbat.readVoltage();
           Serial.print(Value);
-            // TMP36 temperature
-            Value = tmp36.readTemperature();
-            Serial.print(", ");
-            Serial.print(Value);
+          // TMP36 temperature
+          Value = tmp36.readTemperature();
+          Serial.print(", ");
+          Serial.print(Value);
+          // BMP183 pressure, temperature
+          Value = bmp.getPressure() * 0.01;
+          Serial.print(", ");
+          Serial.print(Value);
+          Value = bmp.getTemperature();
+          Serial.print(", ");
+          Serial.print(Value);
         }
+        break;
+      case 'P':
+      case 'p':
+        // BMP183 barometric pressure
+        Value = bmp.getPressure() * 0.01;   // millibars
+        Serial.print(Value);
+        break;
+      case 'Q':
+      case 'q':
+        // BMP183 temperature
+        Value = bmp.getTemperature();
+        Serial.print(Value);
         break;
       case 'S':
       case 's':
