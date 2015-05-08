@@ -74,10 +74,12 @@ float t;  // used for calculating dewpoint
 byte ds1w_addr[8];
 byte ds1w_data[12];
 
+int SerialRequestCounter;     // For debugging purposes
+
 void setup()
 {
   pinMode(ActivityLED, OUTPUT);     // An LED to signal activity
-  digitalWrite(ActivityLED, HIGH);      // Turn the LED on during setup()
+  digitalWrite(ActivityLED, HIGH);  // Turn the LED on during setup()
   Serial.begin(9600);               // Initialise serialport
   Serial.print("... ");
 
@@ -92,7 +94,8 @@ void setup()
 
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println(" cmdMULTIsens ready !");   // Print banner
-  digitalWrite(ActivityLED, LOW);       // Turn off the LED at end of setup()
+  SerialRequestCounter = 0;         // For debugging purposes
+  digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
 
 int serialRX()
@@ -177,6 +180,7 @@ void loop()
   if (Serial.available() > 0)
   {
     digitalWrite(ActivityLED, HIGH);      // signal activity detected
+    SerialRequestCounter += 1;            // For debugging purposes
 
     ActionRequest = serialRX();           // check the input
 
@@ -279,6 +283,8 @@ void loop()
           Value = bmp.getTemperature();
           Serial.print(", ");
           Serial.print(Value);
+          Serial.print(", ");
+          Serial.print(SerialRequestCounter);
         }
         break;
       case 'P':
@@ -316,6 +322,12 @@ void loop()
         // DS18B20 temperature
         Value = readDSTemperature();
         Serial.print(Value);
+        break;
+      case 'Z':
+      case 'z':
+        // Number of serial requests
+        // For debugging purposes
+        Serial.print(SerialRequestCounter);
         break;
       default:
         Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
