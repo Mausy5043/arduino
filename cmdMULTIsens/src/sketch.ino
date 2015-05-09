@@ -1,5 +1,5 @@
 /*
-  cmdMULTI sketch
+  cmdMULTIsens sketch
 
 */
 
