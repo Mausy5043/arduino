@@ -1,80 +1,83 @@
 /*
-  cmdMULTI sketch
+  cmdAVGsens sketch
+
+  Measuring and self-averaging
 
 */
 
 
+/*
+    $$$ ATMEGA silicon temperature measurement
+*/
 #include <avr/pgmspace.h>
 #include "ChipTemp.h"
+#define ATSamples 9                 // number of samples to be averaged
+ChipTemp chipTemp(ATSamples);       // Initialise internal temperature measurement
 
+
+/*
+    $$$ Voltage measurement using a voltage-divider circuit with resistors
+*/
 #include <VBAT.h>
-#include <TMP36.h>
-#include <DHT.h>
-#include <OneWire.h>
-#include <BMP183.h>
-
-// Pins used for BMP183 via SPI
-#define BMP183_CLK  13  // Clock
-#define BMP183_SDO  12  // SPI Digital Out aka MISO
-#define BMP183_SDI  11  // SPI Digital In aka MOSI
-#define BMP183_CS   10  // ChipSelect pin
-
-// An LED is connected to pin 3
-#define ActivityLED 3
-
-// measurement pin of DHT22 is connected to digital pin 4
-#define Dht22Pin 4
-#define DhtType DHT22
-// number of samples to be averaged (not used!)
-#define Dht22Samples 9
-
-// measurement pin of the voltage measurement circuit is connected to analog pin 0
-#define VbatPin A0
-// number of samples to be averaged
-#define VbatSamples 9
-
-// measurement pin of TMP36 is connected to analog pin 1
-#define Tmp36Pin A1
-// number of samples to be averaged
-#define Tmp36Samples 9
-
-// measurement pin of DS18B20 is connected to pin 9
-#define DS18Pin 9
-// number of samples to be averaged
-#define DS18Samples 9
-
-// ATMEGA Chip is internal
-// number of samples to be averaged
-#define ATSamples 9
-
-// Initialise DHT sensor: measurement pin, sensortype
-DHT dht(Dht22Pin, DhtType);
-
+#define VbatPin A0                  // Connected to analog pin 0
+#define VbatSamples 9               // number of samples to be averaged
 // Initialise VBAT library: measurement pin, number of samples to average,
 //        +V reference [V], R1 [Ohm], R2 [Ohm]
 VBAT vbat(VbatPin, VbatSamples, 5.0, 99300.0,  9870.0);
 
+
+/*
+    $$$ Temperature measurement (on-board) using a TMP36 sensor
+*/
+#include <TMP36.h>
+#define Tmp36Pin A1                 // Connected to analog pin 1
+#define Tmp36Samples 9              // number of samples to be averaged
 // Initialise TMP36 library: measurement pin, number of samples to average, +V reference
 TMP36 tmp36(Tmp36Pin, Tmp36Samples, 5.0);
 
-// Initialise DS18B20 library: measurement pin, number of samples to average
-//DS18B20 ds1w(DS18Pin, DS18Samples);
-OneWire ds1w(DS18Pin);
 
-// Initialise internal temperature
-ChipTemp chipTemp(ATSamples);
+/*
+    $$$ RH/T measurement using a DHT22 sensor
+*/
+#include <DHT.h>
+#define Dht22Pin 4                  // Connected to digital pin 4
+#define DhtType DHT22               // Sensor-type used
+#define Dht22Samples 9              // number of samples to be averaged (not used!)
+DHT dht(Dht22Pin, DhtType);         // Initialise DHT sensor: measurement pin, sensortype
+float h;                            // used for calculating dewpoint
+float t;                            // used for calculating dewpoint
 
+
+/*
+    $$$ Temperature measurement using a DS18B20 sensor
+*/
+#include <OneWire.h>
+#define DS18Pin 9                   // Connected to pin 9
+#define DS18Samples 9               // number of samples to be averaged
+byte ds1w_addr[8];                  // claim storage space for sensor id
+byte ds1w_data[12];                 // claim storage space for data
+OneWire ds1w(DS18Pin);              // Initialise DS18B20 library
+
+
+/*
+    $$$ p/T measurement using a BMP183 sensor
+*/
+#include <BMP183.h>
+// Pins used for BMP183 via SPI
+#define BMP183_CLK  13              // Clock
+#define BMP183_SDO  12              // SPI Digital Out aka MISO
+#define BMP183_SDI  11              // SPI Digital In aka MOSI
+#define BMP183_CS   10              // ChipSelect pin
 // initialize with hardware SPI
 //BMP183 bmp = BMP183(BMP183_CS);
 // or initialize with software SPI and use any 4 pins
-BMP183 bmp = BMP183(BMP183_CLK, BMP183_SDO, BMP183_SDI, BMP183_CS);
+BMP183 bmp(BMP183_CLK, BMP183_SDO, BMP183_SDI, BMP183_CS);
 
-float h;  // used for calculating dewpoint
-float t;  // used for calculating dewpoint
-byte ds1w_addr[8];
-byte ds1w_data[12];
-
-int SerialRequestCounter;     // For debugging purposes
+/*
+    Miscelaneous
+*/
+#define ActivityLED 3               // An LED is connected to pin 3
+int SampleCounter;                  // For debugging purposes
 
 void setup()
 {
@@ -94,7 +97,7 @@ void setup()
 
   delay(2000);                      // Wait 2s for all sensors to come online
   Serial.println(" cmdMULTIsens ready !");   // Print banner
-  SerialRequestCounter = 0;         // For debugging purposes
+  SampleCounter = 0;                // For debugging purposes
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
 
@@ -113,24 +116,16 @@ float readDSTemperature(void)
 
   ds1w.reset();
   ds1w.select(ds1w_addr);
-  ds1w.write(0x44, 1);        // start conversion, with parasite power on at the end
+  ds1w.write(0x44, 1);              // start conversion, with parasite power on at the end
 
-  delay(1000);     // maybe 750ms is enough, maybe not
+  delay(1000);                      // maybe 750ms is enough, maybe not
   byte present = ds1w.reset();
   ds1w.select(ds1w_addr);
-  ds1w.write(0xBE);         // Read Scratchpad
+  ds1w.write(0xBE);                 // Read Scratchpad
 
-  //Serial.print("  Data = ");
-  //Serial.print(present, HEX);
-  //Serial.print(" ");
-  for ( int i = 0; i < 9; i++) {           // we need 9 bytes
+  for ( int i = 0; i < 9; i++) {    // we need 9 bytes
     ds1w_data[i] = ds1w.read();
-    //Serial.print(ds1w_data[i], HEX);
-    //Serial.print(" ");
   }
-  //Serial.print(" CRC=");
-  //Serial.print(OneWire::crc8(ds1w_data, 8), HEX);
-  //Serial.println();
 
   // Convert the data to actual temperature
   // because the result is a 16 bit signed integer, it should
@@ -152,9 +147,6 @@ float readDSTemperature(void)
     //// default is 12 bit resolution, 750 ms conversion time
   }
   float celsius = (float)raw / 16.0;
-  //Serial.print("  Temperature = ");
-  //Serial.print(celsius);
-  //Serial.println(" Celsius, ");
 
 /*
   // add up the pre-defined number of DS18Samples for Sample Averaging
@@ -179,13 +171,13 @@ void loop()
 
   if (Serial.available() > 0)
   {
-    digitalWrite(ActivityLED, HIGH);      // signal activity detected
-    SerialRequestCounter += 1;            // For debugging purposes
+    digitalWrite(ActivityLED, HIGH);  // signal activity detected
+    SampleCounter += 1;               // For debugging purposes
 
-    ActionRequest = serialRX();           // check the input
+    ActionRequest = serialRX();       // check the input
 
-    Serial.print((char)ActionRequest);    // start of telegram
-    Serial.print(" ");                    // and delimiter
+    Serial.print((char)ActionRequest);// start of telegram
+    Serial.print(" ");                // and delimiter
     switch (ActionRequest)
     {
       case '?':
@@ -284,7 +276,7 @@ void loop()
           Serial.print(", ");
           Serial.print(Value);
           Serial.print(", ");
-          Serial.print(SerialRequestCounter);
+          Serial.print(SampleCounter);
         }
         break;
       case 'P':
@@ -327,14 +319,14 @@ void loop()
       case 'z':
         // Number of serial requests
         // For debugging purposes
-        Serial.print(SerialRequestCounter);
+        Serial.print(SampleCounter);
         break;
       default:
-        Serial.print("NaN");          // Invalid ActionRequest returns `NaN`
+        Serial.print("NaN");       // Invalid ActionRequest returns `NaN`
         break;
     }
-    Serial.println(" !");             // Signal end of telegram
+    Serial.println(" !");          // Signal end of telegram
 
-    digitalWrite(ActivityLED, LOW);   // end of activity
+    digitalWrite(ActivityLED, LOW);// end of activity
   }
 }
