@@ -96,7 +96,7 @@ void setup()
   }
 
   delay(2000);                      // Wait 2s for all sensors to come online
-  Serial.println(" cmdMULTIsens ready !");   // Print banner
+  Serial.println(" cmdAVGsens ready !");   // Print banner
   SampleCounter = 0;                // For debugging purposes
   digitalWrite(ActivityLED, LOW);   // Turn off the LED at end of setup()
 }
