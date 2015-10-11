@@ -34,7 +34,7 @@ float DHT::readTemperature(bool S) {
     case DHT11:
       f = data[2];
       if(S)
-      	f = convertCtoF(f);
+        f = convertCtoF(f);
 
       return f;
     case DHT22:
@@ -44,9 +44,9 @@ float DHT::readTemperature(bool S) {
       f += data[3];
       f /= 10;
       if (data[2] & 0x80)
-	       f *= -1;
+         f *= -1;
       if(S)
-	       f = convertCtoF(f);
+         f = convertCtoF(f);
 
       return f;
     }
@@ -55,7 +55,7 @@ float DHT::readTemperature(bool S) {
 }
 
 float DHT::convertCtoF(float c) {
-	return c * 9 / 5 + 32;
+  return c * 9 / 5 + 32;
 }
 
 float DHT::convertFtoC(float f) {

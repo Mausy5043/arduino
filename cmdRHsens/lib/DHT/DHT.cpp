@@ -44,7 +44,7 @@ float DHT::readTemperature(void) {
       f += data[3];
       f /= 10;
       if (data[2] & 0x80)
-	       f *= -1;
+         f *= -1;
 
       return f;
     }
@@ -53,7 +53,7 @@ float DHT::readTemperature(void) {
 }
 
 float DHT::convertCtoF(float c) {
-	return c * 9 / 5 + 32;
+  return c * 9 / 5 + 32;
 }
 
 float DHT::convertFtoC(float f) {

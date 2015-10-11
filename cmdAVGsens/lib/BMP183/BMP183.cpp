@@ -30,9 +30,9 @@ BMP183::BMP183(int8_t SPICS ) {
 }
 
 BMP183::BMP183(int8_t SPICLK,
-				 int8_t SPIMISO,
-				 int8_t SPIMOSI,
-				 int8_t SPICS) {
+         int8_t SPIMISO,
+         int8_t SPIMOSI,
+         int8_t SPICS) {
   _cs = SPICS;
   _clk = SPICLK;
   _miso = SPIMISO;
@@ -284,7 +284,7 @@ uint8_t BMP183::SPIxfer(uint8_t x) {
       digitalWrite(_mosi, x & (1<<i));
       digitalWrite(_clk, HIGH);
       if (digitalRead(_miso))
-	reply |= 1;
+  reply |= 1;
     }
     return reply;
   }

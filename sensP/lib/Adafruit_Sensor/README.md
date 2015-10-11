@@ -29,7 +29,7 @@ The following drivers are based on the Adafruit Unified Sensor Driver:
 **Magnetometers**
   - [Adafruit\_LSM303DLHC](https://github.com/adafruit/Adafruit_LSM303DLHC)
   - [Adafruit\_HMC5883\_Unified](https://github.com/adafruit/Adafruit_HMC5883_Unified)
-  
+
 **Barometric Pressure**
   - [Adafruit\_BMP085\_Unified](https://github.com/adafruit/Adafruit_BMP085_Unified)
   - [Adafruit\_BMP183\_Unified\_Library](https://github.com/adafruit/Adafruit_BMP183_Unified_Library)
@@ -160,7 +160,7 @@ A key part of the abstraction layer is the standardisation of values on SI units
 - **magnetic**: values are in **micro-Tesla** (uT)
 - **orientation**: values are in **degrees**
 - **gyro**: values are in **rad/s**
-- **temperature**: values in **degrees centigrade** (Celsius) 
+- **temperature**: values in **degrees centigrade** (Celsius)
 - **distance**: values are in **centimeters**
 - **light**: values are in **SI lux** units
 - **pressure**: values are in **hectopascal** (hPa)
@@ -180,10 +180,10 @@ An example of reading the [TSL2561](https://github.com/adafruit/Adafruit_TSL2561
 ```
  Adafruit_TSL2561 tsl = Adafruit_TSL2561(TSL2561_ADDR_FLOAT, 12345);
  ...
- /* Get a new sensor event */ 
+ /* Get a new sensor event */
  sensors_event_t event;
  tsl.getEvent(&event);
- 
+
  /* Display the results (light is measured in lux) */
  if (event.light)
  {
@@ -201,7 +201,7 @@ Similarly, we can get the basic technical capabilities of this sensor with the f
 
 ```
  sensor_t sensor;
- 
+
  sensor_t sensor;
  tsl.getSensor(&sensor);
 
